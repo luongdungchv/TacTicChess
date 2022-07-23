@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1abce02c715aa043afb56efffb17e6c, type: 3}
+  m_Name: Chess Piece Types
+  m_EditorClassIdentifier: 
+  pieces:
+  - {fileID: 7151967800867274793, guid: 0f5a9b304badd0c4aa251f3983b98092, type: 3}
+  - {fileID: 1588953095219368621, guid: 7bf5424d4763f80409a7f7f96c94999e, type: 3}
+  - {fileID: 423555759732311693, guid: 90ebdec8f6640944f913bab168e404dc, type: 3}
+  - {fileID: 4434254302533225794, guid: daab23aceb5b10f43bdd453a49a4f59f, type: 3}
+  - {fileID: 7404967995963480895, guid: 136f5e9470cdf564ebcc707aa63bab6d, type: 3}
