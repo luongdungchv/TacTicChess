@@ -9,10 +9,11 @@ using System.Text;
 public class LocalServer : MonoBehaviour
 {
     public static LocalServer ins;
-    public TcpListener server;
-    public UdpClient udpListener;
+    public int port;
+    private TcpListener server;
+    private UdpClient udpListener;
     List<PlayerClient> clientList;
-    public bool isHosting;
+    private bool isHosting;
 
     private void Start()
     {
@@ -20,7 +21,7 @@ public class LocalServer : MonoBehaviour
         ins = this;
         DontDestroyOnLoad(this);
     }
-    public void StartHost(int port)
+    public void StartHost()
     {
         server = new TcpListener(IPAddress.Any, port);
         clientList = new List<PlayerClient>();
@@ -46,7 +47,7 @@ public class LocalServer : MonoBehaviour
             isHosting = false;
         }
     }
-    
+
     async void UdpReceiveAsync()
     {
         try
@@ -73,7 +74,7 @@ public class LocalServer : MonoBehaviour
     {
         var incomingConnection = server.EndAcceptTcpClient(result);
         Debug.Log($"Incoming connection from {incomingConnection.Client.RemoteEndPoint}");
-        
+
         server.BeginAcceptTcpClient(ClientConnectCallback, 0);
         PlayerClient client = new PlayerClient(incomingConnection);
 
@@ -84,12 +85,13 @@ public class LocalServer : MonoBehaviour
         var msg = Encoding.ASCII.GetString(data);
         try
         {
-            client.name = msg.Substring(0, msg.IndexOf(" "));
+            var split = msg.Split();
+            client.name = split[0];
 
-            var roomId = int.Parse(msg.Substring(msg.IndexOf(" ") + 1, msg.LastIndexOf(" ") - msg.IndexOf(" ") - 1));
+            var roomId = int.Parse(split[1]);
             if (roomId != -1)
             {
-                var playerId = int.Parse(msg.Substring(msg.LastIndexOf(" ") + 1));
+                var playerId = int.Parse(split[2]);
                 if (clientList[playerId].name == client.name)
                 {
                     SetDisconnectedPlayer(playerId, client);
@@ -105,7 +107,7 @@ public class LocalServer : MonoBehaviour
         }
         clientList.Add(client);
         Debug.Log(clientList.Count);
-        if(clientList.Count == 2)
+        if (clientList.Count == 2)
         {
             clientList[0].BeginCommunicate(clientList[1]);
             clientList[1].BeginCommunicate(clientList[0]);
@@ -116,7 +118,7 @@ public class LocalServer : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        StopHost();        
+        StopHost();
     }
     void SetDisconnectedPlayer(int id, PlayerClient sub)
     {
@@ -161,6 +163,7 @@ public class LocalServer : MonoBehaviour
                 int dataLength = stream.EndRead(result);
                 if (dataLength <= 0)
                 {
+                    Debug.Log("null data");
                     Disconnect();
                     partner.Disconnect();
                     return;
@@ -183,7 +186,7 @@ public class LocalServer : MonoBehaviour
             byte[] dataByte = Encoding.ASCII.GetBytes(msg);
             try { await stream.WriteAsync(dataByte, 0, dataByte.Length); }
             catch { }
-            
+
         }
         public void Disconnect()
         {
@@ -191,7 +194,7 @@ public class LocalServer : MonoBehaviour
             {
                 tcpSocket.Client.Disconnect(false);
                 tcpSocket.Close();
-                
+
                 Debug.Log("Server Disconnected");
             }
             catch

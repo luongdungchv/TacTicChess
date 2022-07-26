@@ -19,17 +19,17 @@ public class BoardPiece : MonoBehaviour
         set
         {
             _currentChessPiece = value;
-            if(_currentChessPiece != null) _currentChessPiece.currentBoardPiece = this;
+            if (_currentChessPiece != null) _currentChessPiece.currentBoardPiece = this;
         }
     }
 
     public static bool isInHighlightSelection;
     public bool isRoot;
-    
+
 
     public int highlightType;
 
- 
+
     public SpriteRenderer marker;
 
     public int barrierSide = -1;
@@ -49,27 +49,27 @@ public class BoardPiece : MonoBehaviour
         barrierSide = -1;
     }
 
-   
+
     private void OnDestroy()
     {
         OnBoardReset = null;
     }
     private void OnMouseDown()
     {
-        if (BoardGenerator.ins.matchEnded) return;
+        if (Board.ins.matchEnded) return;
         if (!Client.IsConnectedToInternet())
         {
             return;
         }
-        
-        if (Client.ins.side == BoardGenerator.ins.currentSide && !BoardGenerator.ins.isEnd)
+
+        if (Client.ins.side == Board.ins.currentSide && !Board.ins.isEnd)
         {
-            if(BarrierPlacer.isInPlacingMode)
+            if (BarrierPlacer.isInPlacingMode)
             {
                 bool isValidPiece = Client.ins.side == 0 ? GetCoordinate().x > 4 : GetCoordinate().x <= 4;
-                if(currentChessPiece == null && isValidPiece)
+                if (currentChessPiece == null && isValidPiece)
                 {
-                    if(Client.ins.barrierCount > 0)
+                    if (Client.ins.barrierCount > 0)
                     {
                         Client.ins.PlaceBarrierRequest(GetCoordinate());
                     }
@@ -78,7 +78,7 @@ public class BoardPiece : MonoBehaviour
                 OnBoardReset?.Invoke(this, EventArgs.Empty);
                 return;
             }
-           
+
             if (BarrierPlacer.isInMovingMode)
             {
                 bool isValidPiece = Client.ins.side == 0 ? GetCoordinate().x > 4 : GetCoordinate().x <= 4;
@@ -112,7 +112,7 @@ public class BoardPiece : MonoBehaviour
                 OnBoardReset?.Invoke(this, EventArgs.Empty);
                 return;
             }
-            
+
             SetBoardPiece();
         }
 
@@ -133,13 +133,13 @@ public class BoardPiece : MonoBehaviour
     }
     public Vector2Int GetCoordinate()
     {
-        int width = BoardGenerator.ins.boardPieces.GetLength(0);
-        int height = BoardGenerator.ins.boardPieces.GetLength(1);
-        for(int i = 0; i < width; i++)
+        int width = Board.ins.boardPieces.GetLength(0);
+        int height = Board.ins.boardPieces.GetLength(1);
+        for (int i = 0; i < width; i++)
         {
-            for(int j = 0; j < height; j++)
+            for (int j = 0; j < height; j++)
             {
-                if (BoardGenerator.ins.boardPieces[i, j].Equals(this))
+                if (Board.ins.boardPieces[i, j].Equals(this))
                 {
                     return new Vector2Int(i, j);
                 }
@@ -150,7 +150,7 @@ public class BoardPiece : MonoBehaviour
     void SetBoardPiece()
     {
         if (highlightType != 0)
-        {           
+        {
             if (highlightType == 1)
             {
                 Client.ins.SetPieceRequest(selectedPiece.GetCoordinate(), this.GetCoordinate());
@@ -158,14 +158,14 @@ public class BoardPiece : MonoBehaviour
             if (highlightType == 2)
             {
                 Client.ins.AttackTargetRequest(selectedPiece.GetCoordinate(), this.GetCoordinate());
-            }           
+            }
         }
         OnBoardReset?.Invoke(this, EventArgs.Empty);
     }
-   
+
     public void SetBarrier(int side)
-    {       
-        var barrier = Instantiate(BoardGenerator.ins.barrierPrefab, transform.position, Quaternion.identity).GetComponent<Barrier>();
+    {
+        var barrier = Instantiate(Board.ins.barrierPrefab, transform.position, Quaternion.identity).GetComponent<Barrier>();
         barrier.side = side;
         currentChessPiece = barrier;
     }
@@ -175,5 +175,5 @@ public class BoardPiece : MonoBehaviour
         OnBoardReset = null;
     }
 
-    
+
 }

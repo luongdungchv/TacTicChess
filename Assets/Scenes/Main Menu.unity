@@ -820,14 +820,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53179eac401c2844d98db4f20e98b06b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeContainer: {fileID: 0}
-  serverIp: 171.229.110.18
-  dataBufferSize: 4096
+  serverIp: ttchess-gpserver.herokuapp.com
+  port: 26950
   _barrierCount: 0
   _baseCount: 0
   side: -1
-  logText: {fileID: 0}
-  isConnected: 0
+  dataBufferSize: 4096
 --- !u!4 &533197505
 Transform:
   m_ObjectHideFlags: 0
@@ -2017,7 +2015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd72b931a68fd5942a962a8f40ca8bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHosting: 0
+  port: 8000
 --- !u!4 &1686430211
 Transform:
   m_ObjectHideFlags: 0

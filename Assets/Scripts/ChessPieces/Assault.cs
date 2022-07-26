@@ -19,15 +19,15 @@ public class Assault : ChessPiece
 
             BoardPiece[] pieces =
            {
-                BoardGenerator.GetPiece(currentCoordinate.x, coord.y),
-                BoardGenerator.GetPiece(coord.x, currentCoordinate.y),
-                BoardGenerator.GetPiece(coordClone.x, coordClone.y)
+                Board.GetPiece(currentCoordinate.x, coord.y),
+                Board.GetPiece(coord.x, currentCoordinate.y),
+                Board.GetPiece(coordClone.x, coordClone.y)
             };
             for (int i = 0; i < 3; i++)
             {
                 if (lockState[i] == 1) continue;
                 var piece = pieces[i];
-                if(count >= 2) piece.GetComponent<SpriteRenderer>().color = Color.cyan;
+                if (count >= 2) piece.GetComponent<SpriteRenderer>().color = Color.cyan;
                 if (piece.currentChessPiece != null)
                 {
                     lockState[i] = 1;
@@ -55,7 +55,7 @@ public class Assault : ChessPiece
             if (i < 0 || i > 9) continue;
             for (int j = currentCoordinate.y - 2; j <= currentCoordinate.y + 2; j++)
             {
-                var piece = BoardGenerator.GetPiece(i, j);
+                var piece = Board.GetPiece(i, j);
                 if (piece.GetCoordinate() == currentCoordinate) continue;
                 if (piece.currentChessPiece != null) continue;
                 HighlightPieceMove(piece);

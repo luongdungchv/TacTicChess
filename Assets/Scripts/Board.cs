@@ -4,21 +4,25 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class BoardGenerator : MonoBehaviour
+public class Board : MonoBehaviour
 {
-    public static BoardGenerator ins;
-    public Transform startPos, startPos1;
+    public static Board ins;
 
-    public ChessPieceTypes chessPieceTypes;
+    [SerializeField]
+    private Transform startPos, startPos1;
 
-    public GameObject boardPiecePrefab;
-    public BoxCollider2D baseSize;
 
-    public GameObject test;
+    [SerializeField]
+    private GameObject boardPiecePrefab;
+
+    [SerializeField]
+    private BoxCollider2D baseSize;
+
     public BoardPiece[,] boardPieces = new BoardPiece[10, 10];
-    public Vector2Int testSet;
 
-    public GameObject sniperPrefab, shielderPrefab, assaultPrefab, barrierPrefab, basePrefab;
+    [SerializeField]
+    private GameObject sniperPrefab, shielderPrefab, assaultPrefab, basePrefab;
+    public GameObject barrierPrefab;
     public List<ChessPiece> pieces;
 
     public int currentSide;
@@ -28,19 +32,18 @@ public class BoardGenerator : MonoBehaviour
     public bool matchEnded;
 
     public TextMeshProUGUI turnIdentifier;
-    public TextMeshProUGUI logText;
 
     public bool isEnd;
     public static string gameMode;
 
     public GameObject attemptReconnectPanel;
 
-    public Stack<MovePattern> moveStack;
+    public Stack<Move> moveStack;
 
     void Start()
     {
         Application.runInBackground = true;
-        moveStack = new Stack<MovePattern>();
+        moveStack = new Stack<Move>();
         ins = this;
         GeneratePieces(Client.ins.side);
         Client.OnSideChange += (s, e) =>
@@ -61,12 +64,12 @@ public class BoardGenerator : MonoBehaviour
         {
             currentPos = startPos.position;
         }
-        else { currentPos = startPos1.position;unit = -unit; BarrierPlacer.ins.barrierSelector.interactable = false; }
+        else { currentPos = startPos1.position; unit = -unit; BarrierPlacer.ins.barrierSelector.interactable = false; }
         Vector2 tempPos = currentPos;
         for (int i = 0; i < 10; i++)
         {
             tempPos.x = currentPos.x;
-            
+
             for (int j = 0; j < 10; j++)
             {
                 var boardPiece = Instantiate(boardPiecePrefab, tempPos, Quaternion.identity);
@@ -83,16 +86,16 @@ public class BoardGenerator : MonoBehaviour
     void GenerateChessPieces()
     {
         //Generate shielders
-        for(int i = 2; i <= 7; i += 5)
+        for (int i = 2; i <= 7; i += 5)
         {
-            for(int j = 0; j <= 9; j++)
+            for (int j = 0; j <= 9; j++)
             {
                 var shielderPiece = Instantiate(shielderPrefab).GetComponent<Shielder>();
                 pieces.Add(shielderPiece);
                 shielderPiece.side = i == 2 ? 1 : 0;
                 GetPiece(i, j).currentChessPiece = shielderPiece;
                 shielderPiece.transform.position = GetPiece(i, j).transform.position;
-                if(gameMode == "Single")
+                if (gameMode == "Single")
                 {
                     if (shielderPiece.side == 1)
                     {
@@ -109,7 +112,7 @@ public class BoardGenerator : MonoBehaviour
             new Vector2Int(9, 0), new Vector2Int(8, 0), new Vector2Int(8, 9), new Vector2Int(9, 9),
             new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(1, 9), new Vector2Int(0, 9)
         };
-        foreach(var i in spawnPositions)
+        foreach (var i in spawnPositions)
         {
             var sniperPiece = Instantiate(sniperPrefab).GetComponent<Sniper>();
             pieces.Add(sniperPiece);
@@ -127,7 +130,7 @@ public class BoardGenerator : MonoBehaviour
             }
         }
         //Generate assaults
-        for(int n = 0; n <= 9; n += 9)
+        for (int n = 0; n <= 9; n += 9)
         {
             int i = n;
             for (int j = 1; j <= 8; j++)
@@ -138,14 +141,14 @@ public class BoardGenerator : MonoBehaviour
                 GetPiece(i, j).currentChessPiece = assaultPiece;
                 assaultPiece.transform.position = GetPiece(i, j).transform.position;
                 if (i == 0) i = 1;
-                else if(i == 1)
+                else if (i == 1)
                 {
                     if (j == 4) continue;
                     i = 0;
                 }
 
                 if (i == 9) i = 8;
-                else if(i == 8)
+                else if (i == 8)
                 {
                     if (j == 4) continue;
                     i = 9;
@@ -163,9 +166,9 @@ public class BoardGenerator : MonoBehaviour
             }
         }
         //Generate bases
-        for(int i = 0; i <= 9; i += 9)
+        for (int i = 0; i <= 9; i += 9)
         {
-            for(int j = 4; j <= 5; j++)
+            for (int j = 4; j <= 5; j++)
             {
                 var basePiece = Instantiate(basePrefab).GetComponent<MainBase>();
                 pieces.Add(basePiece);
@@ -183,11 +186,11 @@ public class BoardGenerator : MonoBehaviour
                     else AI.ins.playerPieces.Add(basePiece, new Vector2Int(i, j));
                 }
             }
-            
+
         }
     }
-    
-    
+
+
     public static BoardPiece GetPiece(int x, int y)
     {
         x = Mathf.Clamp(x, 0, 9);
@@ -202,12 +205,12 @@ public class BoardGenerator : MonoBehaviour
     {
         moveCount--;
         UIManager.ins.undoReqBtn.interactable = true;
-        if(moveCount < 3 && Client.ins.side != currentSide) UIManager.ins.undoReqBtn.interactable = false;
+        if (moveCount < 3 && Client.ins.side != currentSide) UIManager.ins.undoReqBtn.interactable = false;
         if (moveCount == 0)
         {
             Client.ins.ChangeSideLocal();
         }
-        
+
     }
     public void CheckTurn()
     {
@@ -224,93 +227,8 @@ public class BoardGenerator : MonoBehaviour
     }
     public void Undo()
     {
-        if(moveStack.Count > 0)
+        if (moveStack.Count > 0)
             moveStack.Pop().Undo();
     }
-   
-}
-public class MovePattern
-{
-    public string type;
-    public Vector2Int[] pattern;
 
-    ChessPiece target;
-    public MovePattern(string _type, Vector2Int[] _pattern)
-    {
-        type = _type;
-        pattern = _pattern;
-    }
-    public MovePattern(string _type, Vector2Int from, Vector2Int to)
-    {
-        type = _type;
-        pattern = new Vector2Int[] { from, to };
-    }
-    public void Perform()
-    {
-        if (type == "sp")
-        {
-            var from = BoardGenerator.GetPiece(pattern[0]);
-            var to = BoardGenerator.GetPiece(pattern[1]);
-
-            AnimationPlayer.LerpPosition(from.currentChessPiece.transform, to.transform.position, 0.25f);
-
-            to.currentChessPiece = from.currentChessPiece;
-            from.currentChessPiece = null;
-        }
-        if (type == "at")
-        {
-            var oldPiece = BoardGenerator.GetPiece(pattern[0]);
-
-            if (oldPiece.currentChessPiece != null)
-            {
-                var selectedChessPiece = oldPiece.currentChessPiece;
-                target = BoardGenerator.GetPiece(pattern[1]).currentChessPiece;
-                selectedChessPiece.PerformAtk(pattern[1]);
-            }
-        }
-        if(type == "pb")
-        {
-            var piece = BoardGenerator.GetPiece(pattern[0]);
-            piece.SetBarrier(BoardGenerator.ins.currentSide);
-            Client.ins.barrierCount--;
-        }
-        BoardGenerator.ins.moveStack.Push(this);
-       
-        BoardGenerator.ins.PerformMove();
-    }
-    public void Undo()
-    {
-        BoardGenerator.ins.moveCount++;
-        if (BoardGenerator.ins.moveCount > 3)
-        {
-            Client.ins.ChangeSideLocal();
-            BoardGenerator.ins.moveCount = 1;
-        }
-        if (type == "sp")
-        {
-            var from = BoardGenerator.GetPiece(pattern[1]);
-            var to = BoardGenerator.GetPiece(pattern[0]);
-
-            AnimationPlayer.LerpPosition(from.currentChessPiece.transform, to.transform.position, 0.25f);
-
-            to.currentChessPiece = from.currentChessPiece;
-            from.currentChessPiece = null;
-        }
-        if (type == "at")
-        {
-            var from = BoardGenerator.GetPiece(pattern[0]);
-            var to = BoardGenerator.GetPiece(pattern[1]);
-
-            target.gameObject.SetActive(true);
-            target.hp += from.currentChessPiece.damage;
-            AnimationPlayer.DamagePopup(to.transform.position, 1f, from.currentChessPiece.damage, "+");
-            to.currentChessPiece = target;          
-        }
-        if (type == "pb")
-        {
-            var piece = BoardGenerator.GetPiece(pattern[0]);
-            Client.ins.barrierCount++;
-            piece.currentChessPiece.GetComponent<Barrier>().DestroyBarrier();
-        }
-    }
 }

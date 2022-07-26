@@ -40,7 +40,18 @@ public class ChessPiece : MonoBehaviour
     }
     public virtual void PerformAtk(Vector2Int coord)
     {
-        var targetChessPiece = BoardGenerator.GetPiece(coord).currentChessPiece;
+        var targetChessPiece = Board.GetPiece(coord).currentChessPiece;
+        // targetChessPiece.hp -= damage;
+        // if (targetChessPiece.hp <= 0)
+        // {
+        //     targetChessPiece.Perish();
+        // }
+        // Vector2 targetPosition = targetChessPiece.transform.position;
+        // AnimationPlayer.DamagePopup(targetPosition, 1f, damage, "-");
+        PerformAtk(targetChessPiece);
+    }
+    public virtual void PerformAtk(ChessPiece targetChessPiece)
+    {
         targetChessPiece.hp -= damage;
         if (targetChessPiece.hp <= 0)
         {
@@ -49,6 +60,7 @@ public class ChessPiece : MonoBehaviour
         Vector2 targetPosition = targetChessPiece.transform.position;
         AnimationPlayer.DamagePopup(targetPosition, 1f, damage, "-");
     }
+
     protected void HighlightPieceAtk(BoardPiece piece)
     {
         if (isAI)

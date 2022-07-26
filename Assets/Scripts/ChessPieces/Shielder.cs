@@ -11,7 +11,7 @@ public class Shielder : ChessPiece
             if (i < 0 || i > 9) continue;
             for (int j = currentCoordinate.y - 1; j <= currentCoordinate.y + 1; j++)
             {
-                var piece = BoardGenerator.GetPiece(i, j);
+                var piece = Board.GetPiece(i, j);
                 if (piece.GetCoordinate() == currentCoordinate) continue;
                 if (piece.currentChessPiece != null)
                 {
@@ -19,18 +19,18 @@ public class Shielder : ChessPiece
                     if (piece.currentChessPiece != null && piece.currentChessPiece.side == side) continue;
                     HighlightPieceAtk(piece);
                 }
-                
+
             }
         }
     }
     public override void HighlightMove(Vector2Int currentCoordinate)
     {
-        for(int i = currentCoordinate.x - 1; i <= currentCoordinate.x + 1; i++)
+        for (int i = currentCoordinate.x - 1; i <= currentCoordinate.x + 1; i++)
         {
             if (i < 0 || i > 9) continue;
-            for(int j = currentCoordinate.y - 1; j <= currentCoordinate.y + 1; j++)
+            for (int j = currentCoordinate.y - 1; j <= currentCoordinate.y + 1; j++)
             {
-                var piece = BoardGenerator.GetPiece(i, j);
+                var piece = Board.GetPiece(i, j);
                 if (piece.GetCoordinate() == currentCoordinate) continue;
                 if (piece.currentChessPiece != null) continue;
                 HighlightPieceMove(piece);

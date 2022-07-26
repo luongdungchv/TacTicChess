@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
             caller.text = "Multiplayer";
         });
         btn.interactable = false;
-        caller.text = "Finding Match";     
+        caller.text = "Finding Match";
     }
     public void Disconnect()
     {
@@ -58,8 +58,8 @@ public class UIManager : MonoBehaviour
     }
     public void SinglePlayer()
     {
-        BoardGenerator.gameMode = "Single";
-        BoardGenerator.ins.GeneratePieces(0);
+        Board.gameMode = "Single";
+        Board.ins.GeneratePieces(0);
     }
     public void Undo()
     {
@@ -77,7 +77,7 @@ public class UIManager : MonoBehaviour
     public void StartLocalHost(TextMeshProUGUI caller)
     {
         stopHostBtn.gameObject.SetActive(true);
-        LocalServer.ins.StartHost(26950);
+        LocalServer.ins.StartHost();
         var addressList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
         string myIP = addressList[addressList.Length - 1].ToString();
         ConnectToLocalHost(caller, myIP);
@@ -94,19 +94,19 @@ public class UIManager : MonoBehaviour
         caller.GetComponentInParent<Button>().interactable = false;
         findMatchBtn.interactable = false;
         Client.ins.serverIp = ip;
-        Client.ins.ConnectToServer(() => 
+        Client.ins.ConnectToServer(() =>
         {
             //StopLocalHost();
             caller.GetComponentInParent<Button>().interactable = true;
         });
-    }   
+    }
     public void SwitchLocalMatchPanelState()
     {
-        localMatchPanel.SetActive(!localMatchPanel.activeSelf);        
+        localMatchPanel.SetActive(!localMatchPanel.activeSelf);
     }
     public async void FindLocalMatch()
     {
-        using(UdpClient broadcaster = new UdpClient(AddressFamily.InterNetwork))
+        using (UdpClient broadcaster = new UdpClient(AddressFamily.InterNetwork))
         {
             try
             {
@@ -124,20 +124,17 @@ public class UIManager : MonoBehaviour
                 Debug.Log(msg);
                 AddNewGameToList(msg);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 logText.text = e.ToString();
             }
         }
-        
+
     }
-    public void checkSocket()
-    {
-        Debug.Log(Client.ins.tcpSocket);
-    }
+
     public void AddNewGameToList(string ip)
     {
-        while(gameListContainer.childCount > 0)
+        while (gameListContainer.childCount > 0)
         {
             Destroy(gameListContainer.GetChild(gameListContainer.childCount));
 

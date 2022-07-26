@@ -7,7 +7,7 @@ public class MainBase : ChessPiece
     public override void Perish()
     {
         base.Perish();
-        if(BoardGenerator.gameMode == "Single")
+        if (Board.gameMode == "Single")
         {
             if (side == 0) Client.ins.DecreaseBases();
             else
@@ -17,7 +17,7 @@ public class MainBase : ChessPiece
 
             return;
         }
-        if(Client.ins.side == side)
+        if (Client.ins.side == side)
         {
             Client.ins.DecreaseBases();
             Debug.Log("1 base destroyed");

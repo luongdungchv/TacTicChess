@@ -8,7 +8,7 @@ public class AI : MonoBehaviour
     public Dictionary<ChessPiece, Vector2Int> AIpieces;
     public Dictionary<ChessPiece, Vector2Int> playerPieces;
 
-    
+
 
     public int baseCount;
     private void Start()
@@ -40,18 +40,18 @@ public class AI : MonoBehaviour
             FindOptimalMove(AIpieces, playerPieces, null, null, 0, 1).Perform();
             if (i == 3)
             {
-                BoardGenerator.ins.moveCount = 3;
+                Board.ins.moveCount = 3;
                 Client.ins.ChangeSideLocal();
             }
             yield return new WaitForSeconds(1);
         }
     }
 
-    MovePattern FindOptimalMove(Dictionary<ChessPiece, Vector2Int> _aiPieces, Dictionary<ChessPiece, Vector2Int> _playerPieces,Vector2Int[] atkPattern,Vector2Int[] translatePattern, int count, int side)
+    MovePattern FindOptimalMove(Dictionary<ChessPiece, Vector2Int> _aiPieces, Dictionary<ChessPiece, Vector2Int> _playerPieces, Vector2Int[] atkPattern, Vector2Int[] translatePattern, int count, int side)
     {
         return null;
     }
-    
+
     public void DecreaseBases()
     {
         baseCount--;
@@ -68,5 +68,5 @@ public class AI : MonoBehaviour
 
         }
     }
-    
+
 }
