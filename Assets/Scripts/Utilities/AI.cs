@@ -41,7 +41,7 @@ public class AI : MonoBehaviour
             if (i == 3)
             {
                 Board.ins.moveCount = 3;
-                Client.ins.ChangeSideLocal();
+                Player.ins.ChangeSideLocal();
             }
             yield return new WaitForSeconds(1);
         }
@@ -55,7 +55,7 @@ public class AI : MonoBehaviour
     public void DecreaseBases()
     {
         baseCount--;
-        if (baseCount == 0) Client.ins.ShowResult(1);
+        if (baseCount == 0) Player.ins.ShowResult(1);
     }
     public class MovePattern
     {

@@ -9,7 +9,7 @@ public class MainBase : ChessPiece
         base.Perish();
         if (Board.gameMode == "Single")
         {
-            if (side == 0) Client.ins.DecreaseBases();
+            if (side == 0) Player.ins.DecreaseBases();
             else
             {
                 AI.ins.DecreaseBases();
@@ -17,9 +17,9 @@ public class MainBase : ChessPiece
 
             return;
         }
-        if (Client.ins.side == side)
+        if (Player.ins.side == side)
         {
-            Client.ins.DecreaseBases();
+            Player.ins.DecreaseBases();
             Debug.Log("1 base destroyed");
         }
     }

@@ -63,11 +63,11 @@ public class UIManager : MonoBehaviour
     }
     public void Undo()
     {
-        Client.ins.UndoRequest();
+        Player.ins.UndoRequest();
     }
     public void AcceptUndoRequest()
     {
-        Client.ins.AcceptUndoRequest();
+        Player.ins.AcceptUndoRequest();
         incomingUndoRequestPanel.SetActive(false);
     }
     public void DenyUndoRequest()
@@ -118,7 +118,7 @@ public class UIManager : MonoBehaviour
 
                 var datagram = Encoding.ASCII.GetBytes("fm");
 
-                await broadcaster.SendAsync(datagram, datagram.Length, broadcastEP);
+                await broadcaster.SendAsync(datagram, datagram.Length, multicastEP);
                 var result = await broadcaster.ReceiveAsync();
                 var msg = Encoding.ASCII.GetString(result.Buffer);
                 Debug.Log(msg);

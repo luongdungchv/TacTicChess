@@ -45,12 +45,12 @@ public class Board : MonoBehaviour
         Application.runInBackground = true;
         moveStack = new Stack<Move>();
         ins = this;
-        GeneratePieces(Client.ins.side);
-        Client.OnSideChange += (s, e) =>
+        GeneratePieces(Player.ins.side);
+        Player.OnSideChange += (s, e) =>
         {
             currentSide = currentSide == 0 ? 1 : 0;
             moveCount = 3;
-            BarrierPlacer.ins.barrierSelector.interactable = Client.ins.side == currentSide;
+            BarrierPlacer.ins.barrierSelector.interactable = Player.ins.side == currentSide;
             CheckTurn();
         };
     }
@@ -205,16 +205,16 @@ public class Board : MonoBehaviour
     {
         moveCount--;
         UIManager.ins.undoReqBtn.interactable = true;
-        if (moveCount < 3 && Client.ins.side != currentSide) UIManager.ins.undoReqBtn.interactable = false;
+        if (moveCount < 3 && Player.ins.side != currentSide) UIManager.ins.undoReqBtn.interactable = false;
         if (moveCount == 0)
         {
-            Client.ins.ChangeSideLocal();
+            Player.ins.ChangeSideLocal();
         }
 
     }
     public void CheckTurn()
     {
-        if (Client.ins.side == currentSide)
+        if (Player.ins.side == currentSide)
         {
             turnIdentifier.text = "Your Turn";
             turnIdentifier.color = Color.green;

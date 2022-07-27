@@ -90,7 +90,7 @@ public class PlaceBarrierMove : Move
     {
         var boardPiece = Board.GetPiece(placeCoord);
         boardPiece.SetBarrier(Board.ins.currentSide);
-        Client.ins.barrierCount--;
+        Player.ins.barrierCount--;
         Board.ins.moveStack.Push(this);
         Board.ins.PerformMove();
     }
@@ -98,7 +98,7 @@ public class PlaceBarrierMove : Move
     {
         Board.ins.moveCount++;
         var piece = Board.GetPiece(placeCoord);
-        Client.ins.barrierCount++;
+        Player.ins.barrierCount++;
         piece.currentChessPiece.GetComponent<Barrier>().DestroyBarrier();
     }
 }

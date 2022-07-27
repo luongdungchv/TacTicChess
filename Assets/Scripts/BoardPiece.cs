@@ -62,16 +62,16 @@ public class BoardPiece : MonoBehaviour
             return;
         }
 
-        if (Client.ins.side == Board.ins.currentSide && !Board.ins.isEnd)
+        if (Player.ins.side == Board.ins.currentSide && !Board.ins.isEnd)
         {
             if (BarrierPlacer.isInPlacingMode)
             {
-                bool isValidPiece = Client.ins.side == 0 ? GetCoordinate().x > 4 : GetCoordinate().x <= 4;
+                bool isValidPiece = Player.ins.side == 0 ? GetCoordinate().x > 4 : GetCoordinate().x <= 4;
                 if (currentChessPiece == null && isValidPiece)
                 {
-                    if (Client.ins.barrierCount > 0)
+                    if (Player.ins.barrierCount > 0)
                     {
-                        Client.ins.PlaceBarrierRequest(GetCoordinate());
+                        Player.ins.PlaceBarrierRequest(GetCoordinate());
                     }
                 }
                 BarrierPlacer.isInPlacingMode = false;
@@ -81,16 +81,16 @@ public class BoardPiece : MonoBehaviour
 
             if (BarrierPlacer.isInMovingMode)
             {
-                bool isValidPiece = Client.ins.side == 0 ? GetCoordinate().x > 4 : GetCoordinate().x <= 4;
+                bool isValidPiece = Player.ins.side == 0 ? GetCoordinate().x > 4 : GetCoordinate().x <= 4;
                 if (currentChessPiece == null && isValidPiece)
                 {
-                    Client.ins.SetPieceRequest(BarrierPlacer.selectedPiece.GetCoordinate(), GetCoordinate());
+                    Player.ins.SetPieceRequest(BarrierPlacer.selectedPiece.GetCoordinate(), GetCoordinate());
                 }
                 BarrierPlacer.DisableMovingMode();
                 OnBoardReset?.Invoke(this, EventArgs.Empty);
                 return;
             }
-            if (!isRoot && highlightType == 0 && currentChessPiece != null && !isInHighlightSelection && currentChessPiece.side == Client.ins.side)
+            if (!isRoot && highlightType == 0 && currentChessPiece != null && !isInHighlightSelection && currentChessPiece.side == Player.ins.side)
             {
                 if (currentChessPiece.GetType() == typeof(MainBase)) return;
                 marker.color = Color.green;
@@ -153,11 +153,11 @@ public class BoardPiece : MonoBehaviour
         {
             if (highlightType == 1)
             {
-                Client.ins.SetPieceRequest(selectedPiece.GetCoordinate(), this.GetCoordinate());
+                Player.ins.SetPieceRequest(selectedPiece.GetCoordinate(), this.GetCoordinate());
             }
             if (highlightType == 2)
             {
-                Client.ins.AttackTargetRequest(selectedPiece.GetCoordinate(), this.GetCoordinate());
+                Player.ins.AttackTargetRequest(selectedPiece.GetCoordinate(), this.GetCoordinate());
             }
         }
         OnBoardReset?.Invoke(this, EventArgs.Empty);
