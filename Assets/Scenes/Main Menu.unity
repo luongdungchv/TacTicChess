@@ -714,7 +714,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: jjjjj
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -821,9 +821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _barrierCount: 0
-  _baseCount: 0
   side: -1
-  dataBufferSize: 4096
 --- !u!4 &533197505
 Transform:
   m_ObjectHideFlags: 0
@@ -1837,7 +1835,7 @@ MonoBehaviour:
   stopHostBtn: {fileID: 319286772}
   startHostBtn: {fileID: 1837170952}
   findMatchBtn: {fileID: 884284437}
-  logText: {fileID: 0}
+  logText: {fileID: 453102995}
 --- !u!4 &1159719447
 Transform:
   m_ObjectHideFlags: 0
@@ -1882,8 +1880,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 533197504}
-  serverIp: 
-  port: 8000
+  serverIp: 192.168.1.58
+  port: 26950
+  dataBufferSize: 4096
 --- !u!4 &1282582787
 Transform:
   m_ObjectHideFlags: 0
@@ -2059,7 +2058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd72b931a68fd5942a962a8f40ca8bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 8000
+  port: 26950
 --- !u!4 &1686430211
 Transform:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class BoardPiece : MonoBehaviour
     public bool isSamplePiece;
 
     public GameObject currentChessPieceObj;
-
+    [SerializeField]
     private ChessPiece _currentChessPiece;
     public ChessPiece currentChessPiece
     {
@@ -57,13 +57,15 @@ public class BoardPiece : MonoBehaviour
     private void OnMouseDown()
     {
         if (Board.ins.matchEnded) return;
+
         if (!Client.IsConnectedToInternet())
         {
             return;
         }
-
+        Debug.Log("click");
         if (Player.ins.side == Board.ins.currentSide && !Board.ins.isEnd)
         {
+
             if (BarrierPlacer.isInPlacingMode)
             {
                 bool isValidPiece = Player.ins.side == 0 ? GetCoordinate().x > 4 : GetCoordinate().x <= 4;
@@ -90,8 +92,10 @@ public class BoardPiece : MonoBehaviour
                 OnBoardReset?.Invoke(this, EventArgs.Empty);
                 return;
             }
+
             if (!isRoot && highlightType == 0 && currentChessPiece != null && !isInHighlightSelection && currentChessPiece.side == Player.ins.side)
             {
+
                 if (currentChessPiece.GetType() == typeof(MainBase)) return;
                 marker.color = Color.green;
                 marker.gameObject.SetActive(true);
@@ -115,6 +119,7 @@ public class BoardPiece : MonoBehaviour
 
             SetBoardPiece();
         }
+
 
     }
     public void HighlightMove()

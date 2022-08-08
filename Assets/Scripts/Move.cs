@@ -2,10 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Move
+public class Move
 {
-    public abstract void Perform();
-    public abstract void Undo();
+    public virtual void Perform()
+    {
+
+    }
+    public virtual void Undo()
+    {
+        if (Board.ins.moveCount == 3)
+        {
+            Player.ins.ChangeSideLocal();
+            Board.ins.moveCount = 1;
+            return;
+        }
+        Board.ins.moveCount++;
+    }
 
 }
 public class SetPieceMove : Move
@@ -33,7 +45,7 @@ public class SetPieceMove : Move
     }
     public override void Undo()
     {
-        Board.ins.moveCount++;
+        base.Undo();
         var from = Board.GetPiece(toCoord);
         var to = Board.GetPiece(fromCoord);
 
@@ -68,7 +80,7 @@ public class AttackMove : Move
     }
     public override void Undo()
     {
-        Board.ins.moveCount++;
+        base.Undo();
         var from = Board.GetPiece(attackerCoord);
         var to = Board.GetPiece(targetCoord);
 
@@ -96,7 +108,7 @@ public class PlaceBarrierMove : Move
     }
     public override void Undo()
     {
-        Board.ins.moveCount++;
+        base.Undo();
         var piece = Board.GetPiece(placeCoord);
         Player.ins.barrierCount++;
         piece.currentChessPiece.GetComponent<Barrier>().DestroyBarrier();

@@ -21,22 +21,29 @@ public class Test : MonoBehaviour
     {
         Application.runInBackground = true;
         var ipList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
-        foreach(var i in ipList)
+        foreach (var i in ipList)
         {
             Debug.Log(i.ToString());
         }
-        
+        var multicastAddr = IPAddress.Parse("224.100.0.1");
+        // udp.JoinMulticastGroup(multicastAddr);
+        // udpServer.JoinMulticastGroup(multicastAddr);
+
     }
     async void ReceiveAsync()
     {
+        var multicastAddr = IPAddress.Parse("224.100.0.1");
+        var multicastEP = new IPEndPoint(multicastAddr, 8888);
+
+        //udpServer.JoinMulticastGroup(multicastAddr);
+
         var receivedData = await udpServer.ReceiveAsync();
         var msg = Encoding.ASCII.GetString(receivedData.Buffer);
         string logText = $"{receivedData.RemoteEndPoint}: {msg}";
         Debug.Log(logText);
         receiveLogText.text = logText;
         var newmsg = Encoding.ASCII.GetBytes("RECEIVE");
-        var multicastAddr = IPAddress.Parse("224.100.0.1");
-        var multicastEP = new IPEndPoint(multicastAddr, 8888);
+
         await udpServer.SendAsync(newmsg, newmsg.Length, receivedData.RemoteEndPoint);
         ReceiveAsync();
     }
@@ -73,13 +80,14 @@ public class Test : MonoBehaviour
         udp.EnableBroadcast = true;
         udp.JoinMulticastGroup(multicastAddr);
 
+
         var msg = Encoding.ASCII.GetBytes("SEND");
         int sent = await udp.SendAsync(msg, msg.Length, selectedCast);
         Debug.Log(udp.Client.LocalEndPoint);
-        sendLogText.text = $"Send Completed:{selectedCast}, {sent}";
+        sendLogText.text = $"Send Completed:{Dns.GetHostEntry(Dns.GetHostName()).AddressList[2]}, {sent}";
         var data = await udp.ReceiveAsync();
         receiveLogText.text = Encoding.ASCII.GetString(data.Buffer);
-        
+
 
     }
     public void Receive()
@@ -94,7 +102,7 @@ public class Test : MonoBehaviour
 
         Debug.Log(udpServer.Client.LocalEndPoint);
         udpServer.EnableBroadcast = true;
-        
+
         udpServer.JoinMulticastGroup(multicastAddr);
         receiveLogText.text = "Receiving";
         ReceiveAsync();

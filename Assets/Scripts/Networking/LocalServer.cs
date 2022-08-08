@@ -34,6 +34,8 @@ public class LocalServer : MonoBehaviour
         var address = IPAddress.Parse("224.100.0.1");
         udpListener.JoinMulticastGroup(address);
 
+        Debug.Log(server.LocalEndpoint);
+
         UdpReceiveAsync();
         isHosting = true;
     }

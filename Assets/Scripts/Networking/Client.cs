@@ -6,6 +6,7 @@ using System;
 using System.Text;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Client : MonoBehaviour
 {
@@ -35,8 +36,9 @@ public class Client : MonoBehaviour
         DontDestroyOnLoad(this);
         receiveBuffer = new byte[dataBufferSize];
     }
-    public async void ConnectToServer(Action ConnectFailCallback, Action ConnectSucceededCallback)
+    public async void ConnectToServer(Action<Exception> ConnectFailCallback, Action ConnectSucceededCallback)
     {
+        Debug.Log(serverIp);
         tcpSocket = new TcpClient
         {
             ReceiveBufferSize = dataBufferSize,
@@ -63,7 +65,7 @@ public class Client : MonoBehaviour
         }
         catch (Exception e)
         {
-            ConnectFailCallback();
+            ConnectFailCallback(e);
             //BoardGenerator.ins.logText.text = e.ToString();
             return;
         }
@@ -71,12 +73,13 @@ public class Client : MonoBehaviour
     }
     public void ConnectToServer()
     {
-        ConnectToServer(() => { }, () => { });
+        ConnectToServer((e) => { }, () => { });
     }
-    public void ConnectToServer(Action ConnectFailCallback)
+    public void ConnectToServer(Action<Exception> ConnectFailCallback)
     {
         ConnectToServer(ConnectFailCallback, () => { Debug.Log("Connect sucess"); });
     }
+
     public async void ReadDataAsync()
     {
         int dataLength;
@@ -128,7 +131,7 @@ public class Client : MonoBehaviour
         IEnumerator ReconnectDelay()
         {
             yield return new WaitForSeconds(1);
-            ConnectToServer(() =>
+            ConnectToServer((e) =>
             {
                 Board.ins.attemptReconnectPanel.SetActive(false);
                 Disconnect();
