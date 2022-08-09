@@ -204,15 +204,15 @@ public class Player : MonoBehaviour
 
     private void SendData(DataPack pack)
     {
-        Client.ins.SendData(pack);
+        ClientManager.ins.client[0].SendData(pack);
     }
     private void SendData(string msg)
     {
-        Client.ins.SendData(msg);
+        ClientManager.ins.client[0].SendData(msg);
     }
     private void OnApplicationQuit()
     {
-        Client.ins.Disconnect();
+        ClientManager.ins.client[0].Disconnect();
     }
 
 

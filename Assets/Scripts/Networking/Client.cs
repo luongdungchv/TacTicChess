@@ -8,10 +8,11 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class Client : MonoBehaviour
+
+public class Client : ClientBase
 {
-    public static Client ins;
-    [SerializeField] private Player player;
+    //public static Client ins;
+    //[SerializeField] private Player player;
     public string serverIp;
     public int port;
     [SerializeField]
@@ -23,20 +24,21 @@ public class Client : MonoBehaviour
 
     private byte[] receiveBuffer;
 
-    void Start()
+    protected override void Start()
     {
-        if (ins == null)
-        {
-            ins = this;
-        }
-        else
-        {
-            Destroy(ins.gameObject);
-        }
-        DontDestroyOnLoad(this);
+        // if (ins == null)
+        // {
+        //     ins = this;
+        // }
+        // else
+        // {
+        //     Destroy(ins.gameObject);
+        // }
+        // DontDestroyOnLoad(this);
+        base.Start();
         receiveBuffer = new byte[dataBufferSize];
     }
-    public async void ConnectToServer(Action<Exception> ConnectFailCallback, Action ConnectSucceededCallback)
+    public async override void ConnectToServer(Action<Exception> ConnectFailCallback, Action ConnectSucceededCallback)
     {
         Debug.Log(serverIp);
         tcpSocket = new TcpClient
@@ -71,24 +73,25 @@ public class Client : MonoBehaviour
         }
 
     }
-    public void ConnectToServer()
-    {
-        ConnectToServer((e) => { }, () => { });
-    }
-    public void ConnectToServer(Action<Exception> ConnectFailCallback)
-    {
-        ConnectToServer(ConnectFailCallback, () => { Debug.Log("Connect sucess"); });
-    }
+    // public void ConnectToServer()
+    // {
+    //     ConnectToServer((e) => { }, () => { });
+    // }
+    // public void ConnectToServer(Action<Exception> ConnectFailCallback)
+    // {
+    //     ConnectToServer(ConnectFailCallback, () => { Debug.Log("Connect sucess"); });
+    // }
 
-    public async void ReadDataAsync()
+    private async void ReadDataAsync()
     {
         int dataLength;
         try
         {
             dataLength = await tcpStream.ReadAsync(receiveBuffer, 0, dataBufferSize);
         }
-        catch
+        catch (Exception e)
         {
+            Debug.Log(e);
             AttemptToReconnect();
             return;
         }
@@ -107,7 +110,7 @@ public class Client : MonoBehaviour
         ReadDataAsync();
 
     }
-    public void AttemptToReconnect()
+    private void AttemptToReconnect()
     {
         if (!isConnected) return;
         Debug.Log("dfadsf");
@@ -139,11 +142,8 @@ public class Client : MonoBehaviour
         }
         StartCoroutine(ReconnectCoroutine(7));
     }
-    public static bool IsConnectedToInternet()
-    {
-        return Application.internetReachability != NetworkReachability.NotReachable;
-    }
-    public void Disconnect()
+
+    public override void Disconnect()
     {
         if (isConnected)
         {
@@ -158,7 +158,7 @@ public class Client : MonoBehaviour
         BoardPiece.ResetEvent();
         SceneManager.LoadScene("Main Menu");
     }
-    public async void SendData(DataPack pack)
+    public override async void SendData(DataPack pack)
     {
         if (!IsConnectedToInternet())
         {
@@ -170,7 +170,7 @@ public class Client : MonoBehaviour
         byte[] databytes = Encoding.ASCII.GetBytes(msg);
         await tcpStream.WriteAsync(databytes, 0, databytes.Length);
     }
-    public async void SendData(string msg)
+    public override async void SendData(string msg)
     {
         if (!IsConnectedToInternet())
         {

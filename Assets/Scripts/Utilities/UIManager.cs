@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
     {
         PlayerPrefs.SetString("Current Room", "");
         Button btn = caller.GetComponentInParent<Button>();
-        Client.ins.ConnectToServer((e) =>
+        ClientManager.ins.client[0].ConnectToServer((e) =>
         {
             Debug.Log("Cannot connect to server");
             btn.interactable = true;
@@ -54,7 +54,7 @@ public class UIManager : MonoBehaviour
     }
     public void Disconnect()
     {
-        Client.ins.Disconnect();
+        ClientManager.ins.client[0].Disconnect();
     }
     public void SinglePlayer()
     {
@@ -93,9 +93,9 @@ public class UIManager : MonoBehaviour
     {
         caller.GetComponentInParent<Button>().interactable = false;
         findMatchBtn.interactable = false;
-        Client.ins.serverIp = ip;
+        (ClientManager.ins.client[0] as Client).serverIp = ip;
         logText.text = ip;
-        Client.ins.ConnectToServer((e) =>
+        ClientManager.ins.client[0].ConnectToServer((e) =>
         {
             StopLocalHost();
             logText.text = e.ToString();
