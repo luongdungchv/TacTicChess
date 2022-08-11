@@ -21,7 +21,7 @@ public class Board : MonoBehaviour
     public BoardPiece[,] boardPieces = new BoardPiece[10, 10];
 
     [SerializeField]
-    private GameObject sniperPrefab, shielderPrefab, assaultPrefab, basePrefab;
+    private GameObject sniperPrefab, shielderPrefab, assaultPrefab, basePrefab, lineRendererPrefab;
     public GameObject barrierPrefab;
     public List<ChessPiece> pieces;
 
@@ -39,10 +39,16 @@ public class Board : MonoBehaviour
     public GameObject attemptReconnectPanel;
 
     public Stack<Move> moveStack;
+    public bool isTest;
 
     void Start()
     {
         Application.runInBackground = true;
+        if (isTest)
+        {
+            GeneratePieces(0);
+            return;
+        }
         moveStack = new Stack<Move>();
         ins = this;
         GeneratePieces(Player.ins.side);
@@ -55,19 +61,28 @@ public class Board : MonoBehaviour
         };
     }
 
-    public void GeneratePieces(int input)
+    public async void GeneratePieces(int input)
     {
         Debug.Log(input);
         Vector2 currentPos;
+        Transform start;
         float unit = baseSize.bounds.size.x;
         if (input == 0)
         {
             currentPos = startPos.position;
+            start = startPos;
         }
-        else { currentPos = startPos1.position; unit = -unit; BarrierPlacer.ins.barrierSelector.interactable = false; }
+        else
+        {
+            currentPos = startPos1.position;
+            unit = -unit;
+            BarrierPlacer.ins.barrierSelector.interactable = false;
+            start = startPos1;
+        }
         Vector2 tempPos = currentPos;
         for (int i = 0; i < 10; i++)
         {
+
             tempPos.x = currentPos.x;
 
             for (int j = 0; j < 10; j++)
@@ -76,9 +91,27 @@ public class Board : MonoBehaviour
                 boardPieces[i, j] = boardPiece.GetComponent<BoardPiece>();
                 tempPos.x += unit;
             }
+            var lineRenderer = Instantiate(lineRendererPrefab).GetComponent<LineRenderer>();
+            lineRenderer.SetPosition(0, new Vector2(start.position.x - unit / 2, tempPos.y + unit / 2));
+            lineRenderer.SetPosition(1, new Vector2(tempPos.x - unit / 2, tempPos.y + unit / 2));
 
             tempPos.y -= unit;
         }
+
+        var line = Instantiate(lineRendererPrefab).GetComponent<LineRenderer>();
+        line.SetPosition(0, new Vector2(start.position.x - unit / 2, tempPos.y + unit / 2));
+        line.SetPosition(1, new Vector2(tempPos.x - unit / 2, tempPos.y + unit / 2));
+
+        tempPos = currentPos;
+        for (int i = 0; i < 11; i++)
+        {
+            var lineRenderer = Instantiate(lineRendererPrefab).GetComponent<LineRenderer>();
+            lineRenderer.SetPosition(0, new Vector2(tempPos.x - unit / 2, tempPos.y + unit / 2));
+            lineRenderer.SetPosition(1, new Vector2(tempPos.x - unit / 2, tempPos.y - unit * 10 + unit / 2));
+            tempPos.x += unit;
+        }
+
+        if (isTest) return;
         GenerateChessPieces();
         turnIdentifier.gameObject.SetActive(true);
         CheckTurn();

@@ -53,8 +53,12 @@ public class Player : MonoBehaviour
     void Start()
     {
         Application.runInBackground = true;
-        if (ins != null) Destroy(ins.gameObject);
-        ins = this;
+        if (ins == null) ins = this;
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         DontDestroyOnLoad(this);
         //receiveBuffer = new byte[dataBufferSize];
         var addressList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;

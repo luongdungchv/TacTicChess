@@ -17,8 +17,12 @@ public class LocalServer : MonoBehaviour
 
     private void Start()
     {
-        if (ins != null) Destroy(ins.gameObject);
-        ins = this;
+        if (ins == null) ins = this;
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         DontDestroyOnLoad(this);
     }
     public void StartHost()

@@ -97,13 +97,13 @@ public class BoardPiece : MonoBehaviour
             {
 
                 if (currentChessPiece.GetType() == typeof(MainBase)) return;
-                marker.color = Color.green;
+                marker.color = new Color(0, (float)128 / 255, 0);
                 marker.gameObject.SetActive(true);
                 if (currentChessPiece.GetType() == typeof(Barrier))
                 {
                     BarrierPlacer.EnableMovingMode(GetCoordinate());
                     marker.gameObject.SetActive(true);
-                    marker.color = Color.green;
+                    marker.color = new Color(0, (float)128 / 255, 0);
                     return;
                 }
                 isInHighlightSelection = true;

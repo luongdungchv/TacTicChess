@@ -11,7 +11,6 @@ using TMPro;
 
 public class Client : ClientBase
 {
-    //public static Client ins;
     //[SerializeField] private Player player;
     public string serverIp;
     public int port;
@@ -35,6 +34,12 @@ public class Client : ClientBase
         //     Destroy(ins.gameObject);
         // }
         // DontDestroyOnLoad(this);
+        if (ins == null) ins = this;
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         base.Start();
         receiveBuffer = new byte[dataBufferSize];
     }
