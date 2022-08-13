@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Spine.Unity;
 
 public class ChessPiece : MonoBehaviour
 {
-    public static Dictionary<int, ChessPiece> chessPiecesList;
     public int hp;
     public int damage;
     [SerializeField] private int _side;
@@ -15,19 +15,25 @@ public class ChessPiece : MonoBehaviour
         {
             _side = value;
             GetComponent<SpriteRenderer>().color = value == 0 ? Color.cyan : Color.blue;
+            startGeneIndex = value == 0 ? 0 : 4;
         }
     }
+    [SerializeField] protected string atkAnimation, getHitAnimation, dieAnimation;
 
-    public int value;
     public bool isAI;
-    public List<Vector2Int> moveList;
-    public List<Vector2Int> atkList;
+    private List<Vector2Int> moveList;
+    private List<Vector2Int> atkList;
+    protected int startGeneIndex;
     public BoardPiece currentBoardPiece;
 
-    private void Start()
+    protected virtual void Start()
     {
+        this.InitAppearance();
     }
+    public virtual void InitAppearance()
+    {
 
+    }
 
 
     public virtual void HighlightMove(Vector2Int currentCoordinate)
@@ -52,13 +58,25 @@ public class ChessPiece : MonoBehaviour
     }
     public virtual void PerformAtk(ChessPiece targetChessPiece)
     {
-        targetChessPiece.hp -= damage;
-        if (targetChessPiece.hp <= 0)
-        {
-            targetChessPiece.Perish();
-        }
+
         Vector2 targetPosition = targetChessPiece.transform.position;
-        AnimationPlayer.DamagePopup(targetPosition, 1f, damage, "-");
+
+        var animation = GetComponentInChildren<Figure>();
+        var targetAnimation = targetChessPiece.GetComponentInChildren<Figure>();
+        var targetSkeleton = targetChessPiece.GetComponentInChildren<SkeletonAnimation>();
+        animation.DoAtkAnim(this.atkAnimation, targetSkeleton, (e) =>
+        {
+            targetChessPiece.hp -= damage;
+            if (targetChessPiece.hp <= 0)
+            {
+                targetAnimation.DoHitOrDieAnim(this.dieAnimation, () => targetChessPiece.Perish());
+
+            }
+            else targetAnimation.DoHitOrDieAnim(this.getHitAnimation);
+            AnimationPlayer.DamagePopup(targetPosition, 1f, damage, "-");
+        });
+
+        //AnimationPlayer.DamagePopup(targetPosition, 1f, damage, "-");
     }
 
     protected void HighlightPieceAtk(BoardPiece piece)

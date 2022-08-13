@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Assault : ChessPiece
 {
+    protected override void Start()
+    {
+        base.Start();
+    }
     public override void HighLightAtk(Vector2Int currentCoordinate)
     {
         int startRange = 1;
@@ -65,5 +69,12 @@ public class Assault : ChessPiece
     public override void PerformAtk(Vector2Int coord)
     {
         base.PerformAtk(coord);
+    }
+    public override void InitAppearance()
+    {
+        var figure = GetComponentInChildren<Figure>();
+        var figureManager = FigureManager.ins;
+        var gene = figureManager.GetGene(this.startGeneIndex + 1);
+        figure.SetGenes("1000", gene);
     }
 }

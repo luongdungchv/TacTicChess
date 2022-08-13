@@ -47,8 +47,9 @@ namespace Game
             skeletonAnimation.skeleton.ScaleX = (_flipX ? -1 : 1) * Mathf.Abs(skeletonAnimation.skeleton.ScaleX);
             skeletonAnimation.timeScale = 0.5f;
             skeletonAnimation.skeleton.FindSlot("shadow").Attachment = null;
-            skeletonAnimation.state.SetAnimation(0, "action/idle/normal", true);
+            skeletonAnimation.state.SetAnimation(0, "attack/ranged/cast-fly", false);
             skeletonAnimation.state.End += SpineEndHandler;
+            skeletonAnimation.state.Complete += SpineCompleteHandler;
         }
 
         private void OnDisable()
@@ -67,12 +68,18 @@ namespace Game
 
         private void SpineEndHandler(TrackEntry trackEntry)
         {
+            Debug.Log("end");
             string animation = trackEntry.Animation.Name;
             if (animation == "action/move-forward")
             {
                 skeletonAnimation.state.SetAnimation(0, "action/idle/normal", true);
                 skeletonAnimation.timeScale = 0.5f;
             }
+        }
+        private void SpineCompleteHandler(TrackEntry e)
+        {
+            Debug.Log("complete");
+            //skeletonAnimation.state.SetAnimation(0, "action/idle/normal", true);
         }
     }
 }

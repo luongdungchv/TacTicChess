@@ -8,6 +8,7 @@ using System.Text;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Linq;
+using AxieMixer.Unity;
 
 public class Player : MonoBehaviour
 {
@@ -39,16 +40,7 @@ public class Player : MonoBehaviour
     }
     public int side;
 
-
-    private bool isConnected;
-
     Action pendingProcessing;
-
-    NetworkStream tcpStream;
-
-    byte[] receiveBuffer;
-
-
 
     void Start()
     {

@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using System.Net.Http;
 
 namespace Game
 {
@@ -24,14 +25,15 @@ namespace Game
 
         private void OnDisable()
         {
-            _mixBtn.onClick.RemoveListener(OnMixButtonClicked);
+            //_mixBtn.onClick.RemoveListener(OnMixButtonClicked);
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            Time.timeScale = 0f;
+            //Time.timeScale = 0f;
 
+            Debug.Log(Shader.Find("Custom/Texture Splatting Palette"));
             Mixer.Init();
 
             string axieId = PlayerPrefs.GetString("selectingId", "2727");
@@ -46,7 +48,7 @@ namespace Game
             if (!_isPlaying)
             {
                 _startMsgGO.SetActive((Time.unscaledTime % .5 < .2));
-                if(Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     _startMsgGO.SetActive(false);
                     _isPlaying = true;
@@ -59,7 +61,9 @@ namespace Game
         {
             if (string.IsNullOrEmpty(_idInput.text) || _isFetchingGenes) return;
             _isFetchingGenes = true;
-            StartCoroutine(GetAxiesGenes(_idInput.text));
+            //StartCoroutine(GetAxiesGenes(_idInput.text));
+            GetGenesString(_idInput.text);
+            Debug.Log("click");
         }
 
         public IEnumerator GetAxiesGenes(string axieId)
@@ -69,6 +73,7 @@ namespace Game
             jPayload.Add(new JProperty("query", searchString));
 
             var wr = new UnityWebRequest("https://graphql-gateway.axieinfinity.com/graphql", "POST");
+            Debug.Log(jPayload.ToString());
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jPayload.ToString().ToCharArray());
             wr.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
             wr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
@@ -89,6 +94,35 @@ namespace Game
                 }
             }
             _isFetchingGenes = false;
+        }
+        public async void GetGenesString(string id)
+        {
+            using (var client = new HttpClient())
+            {
+                string searchString = "{ axie (axieId:" + id + ") { id, genes, newGenes}}";
+                JObject jPayload = new JObject();
+                jPayload.Add(new JProperty("query", searchString));
+                var jsonContent = new StringContent(jPayload.ToString(), System.Text.Encoding.UTF8, "application/json");
+                var url = "https://graphql-gateway.axieinfinity.com/graphql";
+                var request = new HttpRequestMessage(HttpMethod.Post, url);
+                request.Headers.Clear();
+
+                request.Content = jsonContent;
+
+                var response = await client.SendAsync(request);
+                var result = await response.Content.ReadAsStringAsync();
+                Debug.Log(result);
+                if (!string.IsNullOrEmpty(result))
+                {
+                    JObject jResult = JObject.Parse(result);
+                    string genesStr = (string)jResult["data"]["axie"]["newGenes"];
+                    PlayerPrefs.SetString("selectingId", id);
+                    PlayerPrefs.SetString("selectingGenes", genesStr);
+                    _idInput.text = id;
+                    _birdFigure.SetGenes(id, genesStr);
+                }
+                _isFetchingGenes = false;
+            }
         }
     }
 }
