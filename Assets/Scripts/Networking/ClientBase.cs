@@ -7,6 +7,8 @@ public class ClientBase : MonoBehaviour
 {
     public static ClientBase ins;
     [SerializeField] protected Player player;
+    public bool isFindingMatch;
+    public bool isConnected;
     // Start is called before the first frame update
     protected virtual void Start()
     {

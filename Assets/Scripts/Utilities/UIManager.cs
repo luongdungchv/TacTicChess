@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     public Transform gameListContainer;
     public Button joinMatchBtnPrefab;
     public GameObject localMatchPanel;
-    public Button stopHostBtn, startHostBtn, findMatchBtn;
+    public Button stopHostBtn, startHostBtn, findMatchBtn, cancelBtn;
     public TextMeshProUGUI logText;
 
     private void Start()
@@ -43,6 +43,7 @@ public class UIManager : MonoBehaviour
     {
         PlayerPrefs.SetString("Current Room", "");
         Button btn = caller.GetComponentInParent<Button>();
+        cancelBtn.gameObject.SetActive(true);
         ClientManager.ins.client[0].ConnectToServer((e) =>
         {
             Debug.Log("Cannot connect to server");
@@ -150,5 +151,17 @@ public class UIManager : MonoBehaviour
             joinMatchBtn.interactable = false;
             ConnectToLocalHost(text, ip);
         });
+    }
+    public void CancelFindMatch(Button multiplayerBtn)
+    {
+        var currentClient = ClientManager.ins.client[0];
+        if (currentClient.isFindingMatch)
+        {
+            currentClient.Disconnect();
+            currentClient.isFindingMatch = false;
+            cancelBtn.gameObject.SetActive(false);
+            multiplayerBtn.interactable = true;
+            multiplayerBtn.GetComponentInChildren<TextMeshProUGUI>().text = "MultiPlayer";
+        }
     }
 }

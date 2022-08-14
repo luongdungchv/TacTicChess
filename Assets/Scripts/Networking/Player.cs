@@ -224,6 +224,7 @@ public class Player : MonoBehaviour
         {
             //var roomId = int.Parse(msg.Substring(msg.IndexOf(" ") + 1, msg.LastIndexOf(" ") - msg.IndexOf(" ") - 1));
             var playerId = int.Parse(msg.Substring(msg.LastIndexOf(" ") + 1));
+            ClientManager.ins.client[0].isFindingMatch = false;
             side = playerId;
             PlayerPrefs.SetString("Current Room", msg);
             SceneManager.LoadScene("SampleScene");
