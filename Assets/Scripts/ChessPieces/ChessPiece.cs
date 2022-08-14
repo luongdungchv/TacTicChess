@@ -19,16 +19,20 @@ public class ChessPiece : MonoBehaviour
         }
     }
     [SerializeField] protected string atkAnimation, getHitAnimation, dieAnimation;
+    [SerializeField] protected Transform bulletContainer;
+    [SerializeField] protected float atkDelay;
 
     public bool isAI;
     private List<Vector2Int> moveList;
     private List<Vector2Int> atkList;
     protected int startGeneIndex;
+
     public BoardPiece currentBoardPiece;
 
     protected virtual void Start()
     {
         this.InitAppearance();
+        bulletContainer = GameObject.Find("Bullets").transform;
     }
     public virtual void InitAppearance()
     {
@@ -64,7 +68,7 @@ public class ChessPiece : MonoBehaviour
         var animation = GetComponentInChildren<Figure>();
         var targetAnimation = targetChessPiece.GetComponentInChildren<Figure>();
         var targetSkeleton = targetChessPiece.GetComponentInChildren<SkeletonAnimation>();
-        animation.DoAtkAnim(this.atkAnimation, targetSkeleton, (e) =>
+        animation.DoAtkAnim(this.atkAnimation, targetSkeleton, () =>
         {
             targetChessPiece.hp -= damage;
             if (targetChessPiece.hp <= 0)
@@ -74,7 +78,7 @@ public class ChessPiece : MonoBehaviour
             }
             else targetAnimation.DoHitOrDieAnim(this.getHitAnimation);
             AnimationPlayer.DamagePopup(targetPosition, 1f, damage, "-");
-        });
+        }, atkDelay);
 
         //AnimationPlayer.DamagePopup(targetPosition, 1f, damage, "-");
     }

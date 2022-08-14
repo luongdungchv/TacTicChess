@@ -33,6 +33,7 @@ public class BarrierPlacer : MonoBehaviour
                 return;
             }
             isInPlacingMode = !isInPlacingMode;
+
         });
     }
 

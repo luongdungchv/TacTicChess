@@ -911,7 +911,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53179eac401c2844d98db4f20e98b06b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _barrierCount: 0
+  _barrierCount: 8
+  _baseCount: 2
   side: -1
 --- !u!4 &533197505
 Transform:
@@ -1371,6 +1372,15 @@ MonoBehaviour:
   assaultGenes: 
   sniperGenes: 
   baseGenes: 
+  ids:
+  - 2567
+  - 2323
+  - 1000
+  - 1367
+  - 2765
+  - 1002
+  - 2312
+  - 1111
 --- !u!4 &827212606
 Transform:
   m_ObjectHideFlags: 0

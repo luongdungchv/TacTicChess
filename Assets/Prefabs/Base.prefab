@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfcda2abdf4dfce43b34a460d27f35a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
   _flipX: 0
 --- !u!1 &6936323778075969150
 GameObject:
@@ -235,5 +236,7 @@ MonoBehaviour:
   atkAnimation: activity/sleep
   getHitAnimation: activity/sleep
   dieAnimation: activity/sleep
+  bulletContainer: {fileID: 0}
+  atkDelay: 1
   isAI: 0
   currentBoardPiece: {fileID: 0}

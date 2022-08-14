@@ -3,10 +3,13 @@ using Spine;
 using Spine.Unity;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Collections;
 
 public class Figure : MonoBehaviour
 {
     private SkeletonAnimation skeletonAnimation;
+    public GameObject bullet;
 
     [SerializeField] private bool _flipX = false;
     public bool flipX
@@ -64,21 +67,47 @@ public class Figure : MonoBehaviour
         skeletonAnimation.timeScale = 1f;
         skeletonAnimation.AnimationState.SetAnimation(0, "action/move-forward", false);
     }
-    public void DoAtkAnim(string atkAnim, SkeletonAnimation target, Action<TrackEntry> callback)
+    public void DoAtkAnim(string atkAnim, SkeletonAnimation target, Action callback, float delay)
     {
         void fullCallback(TrackEntry entry)
         {
-            callback(entry);
+            callback();
             skeletonAnimation.state.End -= fullCallback;
         }
         skeletonAnimation.state.SetAnimation(0, atkAnim, false);
-        skeletonAnimation.state.Complete += fullCallback;
+        //skeletonAnimation.state.Complete += fullCallback;
+        StartCoroutine(StartShootCountdown(delay, callback, target.transform.position));
     }
     public void DoHitOrDieAnim(string getHitAnim)
     {
 
         skeletonAnimation.state.SetAnimation(0, getHitAnim, false);
     }
+
+    IEnumerator StartShootCountdown(float delay, Action callback, Vector2 target)
+    {
+        yield return new WaitForSeconds(delay);
+        bullet.transform.position = transform.position;
+        StartCoroutine(ShootEnum(bullet.transform, target, callback, 0.5f));
+    }
+    IEnumerator ShootEnum(Transform from, Vector2 to, Action callback, float duration)
+    {
+        float t = 0;
+        Vector2 fromCopy = from.position;
+        from.gameObject.SetActive(true);
+        while (t <= 1)
+        {
+            from.position = Vector2.Lerp(fromCopy, to, t);
+            t += Time.deltaTime / duration;
+            yield return null;
+        }
+        if (t > 1)
+        {
+            from.gameObject.SetActive(false);
+            callback();
+        }
+    }
+
     public void DoHitOrDieAnim(string getHitAnim, Action callback)
     {
         Debug.Log("test");

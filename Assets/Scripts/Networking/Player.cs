@@ -17,8 +17,7 @@ public class Player : MonoBehaviour
 
 
     [SerializeField]
-    private int _barrierCount;
-    private int _baseCount;
+    private int _barrierCount, _baseCount;
 
     public int barrierCount
     {

@@ -7,6 +7,8 @@ public class Shielder : ChessPiece
     protected override void Start()
     {
         base.Start();
+        var figure = GetComponentInChildren<Figure>();
+        figure.bullet = bulletContainer.Find("SniperBullet").gameObject;
     }
     public override void HighLightAtk(Vector2Int currentCoordinate)
     {
