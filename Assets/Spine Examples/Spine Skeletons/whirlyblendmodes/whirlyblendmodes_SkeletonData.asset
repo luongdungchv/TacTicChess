@@ -9,29 +9,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1b3b4b945939a54ea0b23d3396115fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 7528e5233e1c18041a2afe3389168253, type: 3}
   m_Name: whirlyblendmodes_SkeletonData
   m_EditorClassIdentifier: 
   atlasAssets:
-  - {fileID: 11400000, guid: db7ac54cc9ef711408d53c53b765b9a3, type: 2}
+  - {fileID: 11400000, guid: 571e7538b2dd9724e92cf1aed9d4b64e, type: 2}
   scale: 0.01
-  skeletonJSON: {fileID: 4900000, guid: 1a6f51aad0fef5a40aeedfeec5c0b8b2, type: 3}
+  skeletonJSON: {fileID: 4900000, guid: 3f5ff9ae52fbfdf4d8141cd7dac458f4, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
     requiresBlendModeMaterials: 1
     applyAdditiveMaterial: 1
     additiveMaterials:
     - pageName: whirlyblendmodes.png
-      material: {fileID: 2100000, guid: 42faf74af4cc3ff45ad9dd6d3b294b70, type: 2}
+      material: {fileID: 2100000, guid: e7c927a9b5864da4981e083ec6ead771, type: 2}
     multiplyMaterials:
     - pageName: whirlyblendmodes.png
-      material: {fileID: 2100000, guid: 1a34c2d3ba144514c8c2fac92765a1f3, type: 2}
+      material: {fileID: 2100000, guid: 7591085e2c0f3714ab892ff2aaf1434f, type: 2}
     screenMaterials:
     - pageName: whirlyblendmodes.png
-      material: {fileID: 2100000, guid: 504e2776c6b954f419ada6c481bd04b8, type: 2}
+      material: {fileID: 2100000, guid: a59219e72b410094e8950e2693ae7496, type: 2}
   skeletonDataModifiers: []
   fromAnimation: []
   toAnimation: []
   duration: []
-  defaultMix: 0
+  defaultMix: 0.2
   controller: {fileID: 0}

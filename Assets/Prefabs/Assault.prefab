@@ -198,7 +198,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6102546011007399819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ad0c216edace484784148d7e1ed003d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonDataAsset: {fileID: 0}
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6102546011007399819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfcda2abdf4dfce43b34a460d27f35a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 19e23435b3362b54ebbb9fb7ecb3999d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 0}

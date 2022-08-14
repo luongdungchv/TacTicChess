@@ -63,6 +63,7 @@ public class BoardPiece : MonoBehaviour
             return;
         }
         Debug.Log("click");
+        if (Figure.isPlayingAnimation) return;
         if (Player.ins.side == Board.ins.currentSide && !Board.ins.isEnd)
         {
 

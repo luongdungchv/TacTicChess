@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f2d240a26a419e45b61af455dece84a, type: 3}
   m_Name: goblins_Atlas
   m_EditorClassIdentifier: 
-  atlasFile: {fileID: 4900000, guid: 179f09b47e5402545a1aa69bf5cb2cba, type: 3}
+  atlasFile: {fileID: 4900000, guid: 159137a0cc912ce4da3ed0a8f58a6b9e, type: 3}
   materials:
-  - {fileID: 2100000, guid: 54091ef934c41eb4192f72bfd8e3bcc9, type: 2}
+  - {fileID: 2100000, guid: 27512941a842eda45b329607e7fe3f57, type: 2}

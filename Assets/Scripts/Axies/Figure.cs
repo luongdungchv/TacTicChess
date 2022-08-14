@@ -10,6 +10,7 @@ public class Figure : MonoBehaviour
 {
     private SkeletonAnimation skeletonAnimation;
     public GameObject bullet;
+    public static bool isPlayingAnimation = false;
 
     [SerializeField] private bool _flipX = false;
     public bool flipX
@@ -51,7 +52,7 @@ public class Figure : MonoBehaviour
         skeletonAnimation.timeScale = 0.5f;
         skeletonAnimation.skeleton.FindSlot("shadow").Attachment = null;
         skeletonAnimation.state.SetAnimation(0, "action/idle/normal", true);
-        skeletonAnimation.state.End += SpineEndHandler;
+        skeletonAnimation.state.Complete += SpineEndHandler;
     }
 
     private void OnDisable()
@@ -69,10 +70,11 @@ public class Figure : MonoBehaviour
     }
     public void DoAtkAnim(string atkAnim, SkeletonAnimation target, Action callback, float delay)
     {
+        isPlayingAnimation = true;
         void fullCallback(TrackEntry entry)
         {
             callback();
-            skeletonAnimation.state.End -= fullCallback;
+            skeletonAnimation.state.Complete -= fullCallback;
         }
         skeletonAnimation.state.SetAnimation(0, atkAnim, false);
         //skeletonAnimation.state.Complete += fullCallback;
@@ -103,6 +105,7 @@ public class Figure : MonoBehaviour
         }
         if (t > 1)
         {
+            isPlayingAnimation = false;
             from.gameObject.SetActive(false);
             callback();
         }
@@ -123,7 +126,8 @@ public class Figure : MonoBehaviour
     private void SpineEndHandler(TrackEntry trackEntry)
     {
         string animation = trackEntry.Animation.Name;
-        if (animation == "action/move-forward")
+
+        if (animation != "action/idle/normal")
         {
             skeletonAnimation.state.SetAnimation(0, "action/idle/normal", true);
             skeletonAnimation.timeScale = 0.5f;

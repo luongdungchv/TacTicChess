@@ -117,8 +117,8 @@ GameObject:
   - component: {fileID: 5591328279768926310}
   - component: {fileID: 1872666297228848085}
   - component: {fileID: 4458686802920308575}
-  - component: {fileID: 6747926343316037219}
-  - component: {fileID: 8215963178327688252}
+  - component: {fileID: 7469174782214218018}
+  - component: {fileID: 2572105305714612121}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -189,7 +189,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6747926343316037219
+--- !u!114 &7469174782214218018
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2175710734348972970}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ad0c216edace484784148d7e1ed003d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonDataAsset: {fileID: 0}
@@ -226,7 +226,7 @@ MonoBehaviour:
   _animationName: 
   loop: 0
   timeScale: 1
---- !u!114 &8215963178327688252
+--- !u!114 &2572105305714612121
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2175710734348972970}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfcda2abdf4dfce43b34a460d27f35a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 19e23435b3362b54ebbb9fb7ecb3999d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 0}
