@@ -10,8 +10,9 @@ public class ClientColyseus : ClientBase
     [SerializeField] private NetworkManager manager;
     public override void ConnectToServer(Action<Exception> connectFailCallback, Action connectSuccessCallback)
     {
-        base.ConnectToServer(connectFailCallback, connectSuccessCallback);
+        //base.ConnectToServer(connectFailCallback, connectSuccessCallback);
         manager.SetPlayer(player);
+        manager.SetClient(this);
         manager.InitializeClient();
     }
     protected override void Start()
@@ -46,7 +47,11 @@ public class ClientColyseus : ClientBase
     }
     public override void Disconnect()
     {
-        manager.Disconnect();
+        if (isConnected)
+        {
+            manager.Disconnect();
+            isConnected = false;
+        }
     }
     private void HandleMessage(string msg)
     {

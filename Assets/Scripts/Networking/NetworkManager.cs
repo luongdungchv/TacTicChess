@@ -10,12 +10,23 @@ public class NetworkManager : ColyseusManager<NetworkManager>
     public static NetworkManager ins;
     private ColyseusRoom<dynamic> currentRoom;
     private Player player;
+    private ClientColyseus playerClient;
     public async override void InitializeClient()
     {
         base.InitializeClient();
+        playerClient.isFindingMatch = true;
         //client = new ColyseusClient("ws://localhost:2567");
         //var room1 = await client.JoinOrCreate("custom_lobby");
-        currentRoom = await client.JoinOrCreate("match");
+        try
+        {
+            currentRoom = await client.JoinOrCreate("match");
+            playerClient.isConnected = true;
+        }
+        catch
+        {
+            playerClient.isFindingMatch = false;
+            return;
+        }
 
         currentRoom.OnMessage<string>("pair", async (e) =>
         {
@@ -56,6 +67,10 @@ public class NetworkManager : ColyseusManager<NetworkManager>
     public void SetPlayer(Player input)
     {
         this.player = input;
+    }
+    public void SetClient(ClientColyseus input)
+    {
+        this.playerClient = input;
     }
     public async void Disconnect()
     {

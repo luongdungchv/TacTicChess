@@ -18,7 +18,7 @@ public class Client : ClientBase
     private int dataBufferSize = 4096;
     private TcpClient tcpSocket;
 
-    private bool isConnected;
+
     private NetworkStream tcpStream;
 
     private byte[] receiveBuffer;
@@ -45,7 +45,7 @@ public class Client : ClientBase
     }
     public async override void ConnectToServer(Action<Exception> ConnectFailCallback, Action ConnectSucceededCallback)
     {
-        Debug.Log(serverIp);
+        isFindingMatch = true;
         tcpSocket = new TcpClient
         {
             ReceiveBufferSize = dataBufferSize,
@@ -72,6 +72,7 @@ public class Client : ClientBase
         }
         catch (Exception e)
         {
+            isFindingMatch = false;
             ConnectFailCallback(e);
             //BoardGenerator.ins.logText.text = e.ToString();
             return;
@@ -153,6 +154,7 @@ public class Client : ClientBase
         if (isConnected)
         {
             isConnected = false;
+
             Debug.Log("disconnect");
             tcpSocket.Close();
             tcpSocket = null;
