@@ -2660,30 +2660,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1464373905}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1079462dd3dcf42439012d6ebac5e275, type: 3}
+  m_Script: {fileID: 11500000, guid: 364257646a1378742aa988cb583be898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startPos: {fileID: 647211995}
   startPos1: {fileID: 786270578}
-  chessPieceTypes: {fileID: 11400000, guid: 51718620ab1cfb14289a166ec73e0526, type: 2}
   boardPiecePrefab: {fileID: 8945216654688737232, guid: 576fdde16c6203f41a789ebf3112db30, type: 3}
   baseSize: {fileID: 1761538168}
-  test: {fileID: 8945216654688737232, guid: 576fdde16c6203f41a789ebf3112db30, type: 3}
-  testSet: {x: 1, y: 1}
   sniperPrefab: {fileID: 1210768546269650130, guid: 136f5e9470cdf564ebcc707aa63bab6d, type: 3}
   shielderPrefab: {fileID: 4434254302533225793, guid: daab23aceb5b10f43bdd453a49a4f59f, type: 3}
   assaultPrefab: {fileID: 4837145919138060943, guid: 0f5a9b304badd0c4aa251f3983b98092, type: 3}
-  barrierPrefab: {fileID: 4795689649181855291, guid: 7bf5424d4763f80409a7f7f96c94999e, type: 3}
   basePrefab: {fileID: 6936323778075969150, guid: 90ebdec8f6640944f913bab168e404dc, type: 3}
+  barrierPrefab: {fileID: 4795689649181855291, guid: 7bf5424d4763f80409a7f7f96c94999e, type: 3}
   pieces: []
   currentSide: 0
   moveCount: 3
   resultText: {fileID: 899619722}
   matchEnded: 0
   turnIdentifier: {fileID: 1545991063}
-  logText: {fileID: 1685210357}
   isEnd: 0
-  attemptReconnectPanel: {fileID: 289329349}
+  attemptReconnectPanel: {fileID: 0}
 --- !u!4 &1464373907
 Transform:
   m_ObjectHideFlags: 0

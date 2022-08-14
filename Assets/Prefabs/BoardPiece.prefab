@@ -202,13 +202,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8945216654688737232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37879700c147cb54482a4681548c0979, type: 3}
+  m_Script: {fileID: 11500000, guid: d2dd576e222b109468d34457562e1eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isSamplePiece: 0
   currentChessPieceObj: {fileID: 0}
-  netidField: 0
+  _currentChessPiece: {fileID: 0}
   isRoot: 0
   highlightType: 0
-  marker: {fileID: 4123784707120980922}
+  marker: {fileID: 0}
   barrierSide: -1
