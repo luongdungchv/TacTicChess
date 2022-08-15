@@ -55,11 +55,10 @@ public class Board : MonoBehaviour
         Player.OnSideChange += (s, e) =>
         {
             currentSide = currentSide == 0 ? 1 : 0;
-            if (Player.ins.side == currentSide)
-            {
-                Player.ins.ChangeSideCountdown();
 
-            }
+            Player.ins.ChangeSideCountdown();
+
+
             moveCount = 3;
             BarrierPlacer.ins.barrierSelector.interactable = Player.ins.side == currentSide;
             CheckTurn();

@@ -63,8 +63,15 @@ public class Player : MonoBehaviour
     {
         IEnumerator changeSideEnum()
         {
-            yield return new WaitForSeconds(turnDuration);
-            ChangeSideRequest();
+            float t = turnDuration;
+            while (t >= 0)
+            {
+                Slider.ins.UpdateSlider(Mathf.InverseLerp(0, turnDuration, t));
+                t -= Time.deltaTime;
+                yield return null;
+            }
+            if (t <= 0 && side == Board.ins.currentSide)
+                ChangeSideRequest();
         }
         if (changeSideRoutine != null) StopCoroutine(this.changeSideRoutine);
         this.changeSideRoutine = StartCoroutine(changeSideEnum());

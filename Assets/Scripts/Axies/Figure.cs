@@ -71,6 +71,9 @@ public class Figure : MonoBehaviour
     public void DoAtkAnim(string atkAnim, SkeletonAnimation target, Action callback, float delay)
     {
         isPlayingAnimation = true;
+        if (target.transform.position.x < transform.position.x)
+            transform.localScale = new Vector3(3.2f, 3.2f, 1);
+        else transform.localScale = new Vector3(-3.2f, 3.2f, 1);
         void fullCallback(TrackEntry entry)
         {
             callback();

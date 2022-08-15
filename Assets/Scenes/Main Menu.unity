@@ -916,6 +916,7 @@ MonoBehaviour:
   _barrierCount: 8
   _baseCount: 2
   side: -1
+  turnDuration: 300
 --- !u!4 &533197505
 Transform:
   m_ObjectHideFlags: 0
@@ -1985,7 +1986,7 @@ MonoBehaviour:
   stopHostBtn: {fileID: 319286772}
   startHostBtn: {fileID: 1837170952}
   findMatchBtn: {fileID: 884284437}
-  cancelBtn: {fileID: 0}
+  cancelBtn: {fileID: 2055588394}
   logText: {fileID: 453102995}
 --- !u!4 &1159719447
 Transform:
