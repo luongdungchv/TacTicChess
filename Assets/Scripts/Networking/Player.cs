@@ -38,17 +38,12 @@ public class Player : MonoBehaviour
         }
     }
     public int side;
-
+    [SerializeField] private float turnDuration;
 
     private bool isConnected;
 
     Action pendingProcessing;
-
-    NetworkStream tcpStream;
-
-    byte[] receiveBuffer;
-
-
+    private Coroutine changeSideRoutine;
 
     void Start()
     {
@@ -59,6 +54,16 @@ public class Player : MonoBehaviour
         //receiveBuffer = new byte[dataBufferSize];
         var addressList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
         string myIP = addressList[addressList.Length - 1].ToString();
+    }
+    public void ChangeSideCountdown()
+    {
+        IEnumerator changeSideEnum()
+        {
+            yield return new WaitForSeconds(turnDuration);
+            ChangeSideRequest();
+        }
+        if (changeSideRoutine != null) StopCoroutine(this.changeSideRoutine);
+        this.changeSideRoutine = StartCoroutine(changeSideEnum());
     }
 
 
@@ -160,6 +165,15 @@ public class Player : MonoBehaviour
         //var packet = new DataPacket("ua", null);
         var packet = new DataPack("ua", null);
         SendData(packet);
+    }
+    public void ChangeSideRequest()
+    {
+        pendingProcessing = () =>
+        {
+            ChangeSideLocal();
+            pendingProcessing = () => { };
+        };
+        SendData(new DataPack("cs", null));
     }
 
     IEnumerator DenyUndoCountdown(float duration, Transform slider)
@@ -280,7 +294,9 @@ public class Player : MonoBehaviour
                 Board.ins.Undo();
                 UIManager.ins.undoReqBtn.interactable = true;
                 break;
-
+            case "cs":
+                ChangeSideLocal();
+                break;
             default:
                 Debug.Log("Wrong Command");
                 break;

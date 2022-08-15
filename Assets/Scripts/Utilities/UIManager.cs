@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
     {
         PlayerPrefs.SetString("Current Room", "");
         Button btn = caller.GetComponentInParent<Button>();
-        cancelBtn.gameObject.SetActive(true);
+        //        cancelBtn.gameObject.SetActive(true);
         ClientManager.ins.client[0].ConnectToServer((e) =>
         {
             Debug.Log("Cannot connect to server");
