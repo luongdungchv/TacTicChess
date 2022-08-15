@@ -95,6 +95,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc190e0be24e60e4d85d6dc75cbe6823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _side: 0
   hp: 20
   damage: 0
+  _side: 0
+  atkAnimation: 
+  getHitAnimation: 
+  dieAnimation: 
+  bulletContainer: {fileID: 0}
+  atkDelay: 1
+  isAI: 0
+  currentBoardPiece: {fileID: 0}

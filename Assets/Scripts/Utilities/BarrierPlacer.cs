@@ -28,11 +28,12 @@ public class BarrierPlacer : MonoBehaviour
 
         barrierSelector.onClick.AddListener(() =>
         {
-            if (!Client.IsConnectedToInternet())
+            if (!Client.IsConnectedToInternet() || Figure.isPlayingAnimation)
             {
                 return;
             }
             isInPlacingMode = !isInPlacingMode;
+
         });
     }
 

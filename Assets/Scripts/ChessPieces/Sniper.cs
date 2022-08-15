@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Sniper : ChessPiece
 {
+    protected override void Start()
+    {
+        base.Start();
+        var figure = GetComponentInChildren<Figure>();
+        figure.bullet = bulletContainer.Find("SniperBullet").gameObject;
+    }
     public override void HighLightAtk(Vector2Int currentCoordinate)
     {
         void Highlight(Vector2Int coord, int[] lockState, int dir, int count)
@@ -69,5 +75,12 @@ public class Sniper : ChessPiece
     public override void PerformAtk(Vector2Int coord)
     {
         base.PerformAtk(coord);
+    }
+    public override void InitAppearance()
+    {
+        var figure = GetComponentInChildren<Figure>();
+        var figureManager = FigureManager.ins;
+        var gene = figureManager.GetGene(this.startGeneIndex + 2);
+        figure.SetGenes("1000", gene);
     }
 }

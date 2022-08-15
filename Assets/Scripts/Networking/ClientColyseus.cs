@@ -17,6 +17,12 @@ public class ClientColyseus : ClientBase
     }
     protected override void Start()
     {
+        if (ins == null) ins = this;
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         base.Start();
     }
     public override void SendData(DataPack pack)

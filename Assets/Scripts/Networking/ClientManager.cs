@@ -14,6 +14,11 @@ public class ClientManager : MonoBehaviour
     void Start()
     {
         if (ins == null) ins = this;
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         DontDestroyOnLoad(this);
     }
 

@@ -8,6 +8,7 @@ using System.Text;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Linq;
+using AxieMixer.Unity;
 
 public class Player : MonoBehaviour
 {
@@ -16,8 +17,7 @@ public class Player : MonoBehaviour
 
 
     [SerializeField]
-    private int _barrierCount;
-    private int _baseCount;
+    private int _barrierCount, _baseCount;
 
     public int barrierCount
     {
@@ -48,8 +48,12 @@ public class Player : MonoBehaviour
     void Start()
     {
         Application.runInBackground = true;
-        if (ins != null) Destroy(ins.gameObject);
-        ins = this;
+        if (ins == null) ins = this;
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         DontDestroyOnLoad(this);
         //receiveBuffer = new byte[dataBufferSize];
         var addressList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;

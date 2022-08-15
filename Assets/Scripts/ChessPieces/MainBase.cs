@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class MainBase : ChessPiece
 {
+    protected override void Start()
+    {
+        base.Start();
+    }
     public override void Perish()
     {
         base.Perish();
@@ -22,5 +26,12 @@ public class MainBase : ChessPiece
             Player.ins.DecreaseBases();
             Debug.Log("1 base destroyed");
         }
+    }
+    public override void InitAppearance()
+    {
+        var figure = GetComponentInChildren<Figure>();
+        var figureManager = FigureManager.ins;
+        var gene = figureManager.GetGene(this.startGeneIndex + 3);
+        figure.SetGenes("1000", gene);
     }
 }

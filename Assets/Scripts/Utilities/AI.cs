@@ -8,8 +8,6 @@ public class AI : MonoBehaviour
     public Dictionary<ChessPiece, Vector2Int> AIpieces;
     public Dictionary<ChessPiece, Vector2Int> playerPieces;
 
-
-
     public int baseCount;
     private void Start()
     {

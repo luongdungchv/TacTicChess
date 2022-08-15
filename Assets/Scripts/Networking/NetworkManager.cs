@@ -4,6 +4,7 @@ using UnityEngine;
 using Test;
 using Colyseus;
 using System;
+using UnityEngine.SceneManagement;
 public class NetworkManager : ColyseusManager<NetworkManager>
 {
     public static NetworkManager ins;
@@ -38,6 +39,19 @@ public class NetworkManager : ColyseusManager<NetworkManager>
                 Debug.Log(e);
                 player.Notify(s);
             });
+            currentRoom.OnLeave += (i) =>
+            {
+                Debug.Log("player left");
+                SceneManager.LoadScene("Main Menu");
+            };
+
+            currentRoom.OnMessage<string>("leave", async (s) =>
+             {
+                 Debug.Log("Game Abolished");
+                 Disconnect();
+                 //SceneManager.LoadScene("Main Menu");
+             });
+
             Debug.Log(currentRoom.Name);
         });
 
@@ -65,6 +79,11 @@ public class NetworkManager : ColyseusManager<NetworkManager>
     protected override void Start()
     {
         if (ins == null) ins = this;
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         //this.InitializeClient();
         //Debug.Log(client.Settings.WebSocketEndpoint);
         DontDestroyOnLoad(this);

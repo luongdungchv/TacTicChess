@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Shielder : ChessPiece
 {
+    protected override void Start()
+    {
+        base.Start();
+        var figure = GetComponentInChildren<Figure>();
+        figure.bullet = bulletContainer.Find("SniperBullet").gameObject;
+    }
     public override void HighLightAtk(Vector2Int currentCoordinate)
     {
         for (int i = currentCoordinate.x - 1; i <= currentCoordinate.x + 1; i++)
@@ -40,5 +46,12 @@ public class Shielder : ChessPiece
     public override void PerformAtk(Vector2Int coord)
     {
         base.PerformAtk(coord);
+    }
+    public override void InitAppearance()
+    {
+        var figure = GetComponentInChildren<Figure>();
+        var figureManager = FigureManager.ins;
+        var gene = figureManager.GetGene(this.startGeneIndex);
+        figure.SetGenes("1000", gene);
     }
 }
