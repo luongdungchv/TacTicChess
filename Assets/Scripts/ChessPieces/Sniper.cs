@@ -32,13 +32,17 @@ public class Sniper : ChessPiece
             {
                 if (lockState[i] == 1) continue;
                 var piece = pieces[i];
-                if (count >= 5) piece.GetComponent<SpriteRenderer>().color = Color.cyan;
+                if (count >= 4)
+                {
+                    piece.marker.color = Color.cyan;
+                    piece.marker.gameObject.SetActive(true);
+                }
                 if (piece.currentChessPiece != null || piece.barrierSide != -1)
                 {
                     lockState[i] = 1;
                     if (piece.barrierSide == side) continue;
                     if (piece.currentChessPiece != null && piece.currentChessPiece.side == side) continue;
-                    if (count < 5) continue;
+                    if (count < 4) continue;
                     HighlightPieceAtk(piece);
 
                 }

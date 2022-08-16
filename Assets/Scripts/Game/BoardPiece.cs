@@ -62,6 +62,11 @@ public class BoardPiece : MonoBehaviour
         {
             return;
         }
+        if (ChatHandler.isChatOpen)
+        {
+            //ChatHandler.ins.ToggleChatWindow();
+            return;
+        }
         Debug.Log("click");
         if (Figure.isPlayingAnimation) return;
         if (Player.ins.side == Board.ins.currentSide && !Board.ins.isEnd)

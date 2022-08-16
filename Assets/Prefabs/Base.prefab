@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9fd2e1f7fe7e0488abd3d8eef9cf45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 30
+  hp: 20
   damage: 0
   _side: 0
   atkAnimation: activity/sleep

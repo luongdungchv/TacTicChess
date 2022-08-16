@@ -29,6 +29,7 @@ public class Board : MonoBehaviour
     public int moveCount;
 
     public TextMeshProUGUI resultText;
+    public GameObject resultPanel;
     public bool matchEnded;
 
     public TextMeshProUGUI turnIdentifier;
@@ -66,7 +67,7 @@ public class Board : MonoBehaviour
         Player.ins.ChangeSideCountdown();
     }
 
-    public async void GeneratePieces(int input)
+    public void GeneratePieces(int input)
     {
         Debug.Log(input);
         Vector2 currentPos;

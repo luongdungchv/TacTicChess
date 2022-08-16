@@ -9,6 +9,7 @@ using TMPro;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class UIManager : MonoBehaviour
             Debug.Log("Cannot connect to server");
             btn.interactable = true;
             caller.text = "Multiplayer";
+            cancelBtn.gameObject.SetActive(false);
         });
         btn.interactable = false;
         caller.text = "Finding Match";
@@ -163,5 +165,9 @@ public class UIManager : MonoBehaviour
             multiplayerBtn.interactable = true;
             multiplayerBtn.GetComponentInChildren<TextMeshProUGUI>().text = "MultiPlayer";
         }
+    }
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
     }
 }

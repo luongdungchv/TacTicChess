@@ -47,7 +47,7 @@ public class Figure : MonoBehaviour
         GetComponent<MeshRenderer>().sortingOrder = 2;
         skeletonAnimation.transform.localPosition = new Vector3(-0.05f, -1.42f, 0f);
         skeletonAnimation.transform.SetParent(transform, false);
-        skeletonAnimation.transform.localScale = new Vector3(3.2f, 3.2f, 1);
+        skeletonAnimation.transform.localScale = new Vector3(3, 3, 1);
         skeletonAnimation.skeleton.ScaleX = (_flipX ? -1 : 1) * Mathf.Abs(skeletonAnimation.skeleton.ScaleX);
         skeletonAnimation.timeScale = 0.5f;
         skeletonAnimation.skeleton.FindSlot("shadow").Attachment = null;
@@ -68,12 +68,12 @@ public class Figure : MonoBehaviour
         skeletonAnimation.timeScale = 1f;
         skeletonAnimation.AnimationState.SetAnimation(0, "action/move-forward", false);
     }
-    public void DoAtkAnim(string atkAnim, SkeletonAnimation target, Action callback, float delay)
+    public void DoAtkAnim(string atkAnim, Transform target, Action callback, float delay)
     {
         isPlayingAnimation = true;
-        if (target.transform.position.x < transform.position.x)
-            transform.localScale = new Vector3(3.2f, 3.2f, 1);
-        else transform.localScale = new Vector3(-3.2f, 3.2f, 1);
+        if (target.position.x < transform.position.x)
+            transform.localScale = new Vector3(3, 3, 1);
+        else transform.localScale = new Vector3(-3, 3, 1);
         void fullCallback(TrackEntry entry)
         {
             callback();
@@ -81,7 +81,7 @@ public class Figure : MonoBehaviour
         }
         skeletonAnimation.state.SetAnimation(0, atkAnim, false);
         //skeletonAnimation.state.Complete += fullCallback;
-        StartCoroutine(StartShootCountdown(delay, callback, target.transform.position));
+        StartCoroutine(StartShootCountdown(delay, callback, target.position));
     }
     public void DoHitOrDieAnim(string getHitAnim)
     {

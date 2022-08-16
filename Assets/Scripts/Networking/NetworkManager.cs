@@ -11,7 +11,7 @@ public class NetworkManager : ColyseusManager<NetworkManager>
     private ColyseusRoom<dynamic> currentRoom;
     private Player player;
     private ClientColyseus playerClient;
-    public async override void InitializeClient()
+    public async void InitializeClient(Action successCallback, Action<Exception> failCallback)
     {
         base.InitializeClient();
         playerClient.isFindingMatch = true;
@@ -20,10 +20,14 @@ public class NetworkManager : ColyseusManager<NetworkManager>
         try
         {
             currentRoom = await client.JoinOrCreate("match");
+            await currentRoom.Send("name", "lonewolf");
             playerClient.isConnected = true;
+            successCallback();
         }
-        catch
+        catch (Exception e)
         {
+            Debug.Log("Cannot connect");
+            failCallback(e);
             playerClient.isFindingMatch = false;
             return;
         }
@@ -36,7 +40,7 @@ public class NetworkManager : ColyseusManager<NetworkManager>
             currentRoom = await client.ConsumeSeatReservation<dynamic>(reservation);
             currentRoom.OnMessage<string>("message", (s) =>
             {
-                Debug.Log(e);
+                Debug.Log(s);
                 player.Notify(s);
             });
             currentRoom.OnLeave += (i) =>
@@ -45,7 +49,7 @@ public class NetworkManager : ColyseusManager<NetworkManager>
                 SceneManager.LoadScene("Main Menu");
             };
 
-            currentRoom.OnMessage<string>("leave", async (s) =>
+            currentRoom.OnMessage<string>("leave", (s) =>
              {
                  Debug.Log("Game Abolished");
                  Disconnect();

@@ -127,6 +127,7 @@ public class Player : MonoBehaviour
     }
     void AttackTargetLocal(Vector2Int attackerCoord, Vector2Int targetCoord)
     {
+        //Debug.Log(targetCoord);
         Move move = new AttackMove(attackerCoord, targetCoord);
         move.Perform();
     }
@@ -186,6 +187,14 @@ public class Player : MonoBehaviour
         };
         SendData(new DataPack("cs", null));
     }
+    public void SendChatRequest(string msg)
+    {
+        pendingProcessing = () =>
+        {
+            ChatHandler.ins.AddChatText(msg);
+        };
+        ClientManager.ins.client[0].SendData(msg);
+    }
 
     IEnumerator DenyUndoCountdown(float duration, Transform slider)
     {
@@ -221,8 +230,9 @@ public class Player : MonoBehaviour
     }
     public void ShowResult(int resultType)
     {
-        if (resultType == 0) Board.ins.resultText.text = "NGU!! =)))";
-        else Board.ins.resultText.text = "WINNER WINNER CHICKEN DINNER !!!";
+        if (resultType == 0) Board.ins.resultText.text = "BETTER LUCK NEXT TIME";
+        else Board.ins.resultText.text = "CONGRATULATION \n YOU ARE THE WINNER";
+        Board.ins.resultPanel.SetActive(true);
         Board.ins.isEnd = true;
     }
 
@@ -243,6 +253,12 @@ public class Player : MonoBehaviour
 
     public void Notify(string msg)
     {
+        if (msg.Substring(0, 2) == "ct")
+        {
+            ChatHandler.ins.AddChatText(msg);
+            ChatHandler.ins.ShowIncomingChat(msg);
+            return;
+        }
         var deserializedData = new DataPack(msg);
 
         if (deserializedData.cmd.Length > 2)
@@ -308,6 +324,7 @@ public class Player : MonoBehaviour
             case "cs":
                 ChangeSideLocal();
                 break;
+
             default:
                 Debug.Log("Wrong Command");
                 break;

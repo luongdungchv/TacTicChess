@@ -33,7 +33,6 @@ public class Assault : ChessPiece
             {
                 if (lockState[i] == 1) continue;
                 var piece = pieces[i];
-                if (count >= 2) piece.GetComponent<SpriteRenderer>().color = Color.cyan;
                 if (piece.currentChessPiece != null)
                 {
                     lockState[i] = 1;
@@ -41,7 +40,14 @@ public class Assault : ChessPiece
                     if (piece.currentChessPiece != null && piece.currentChessPiece.side == side) continue;
                     if (count < 1) continue;
                     HighlightPieceAtk(piece);
+                    continue;
                 }
+                if (count >= 1)
+                {
+                    piece.marker.color = Color.cyan;
+                    piece.marker.gameObject.SetActive(true);
+                }
+
             }
             if (count == 5) return;
             if (dir == 4) Highlight(coord + Vector2Int.one, lockState, dir, count + 1);

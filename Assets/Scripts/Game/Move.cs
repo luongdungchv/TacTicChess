@@ -69,11 +69,12 @@ public class AttackMove : Move
     }
     public override void Perform()
     {
-
+        // Debug.Log(attacker);
         if (attacker != null)
         {
             //target = BoardGenerator.GetPiece(pattern[1]).currentChessPiece;
             attacker.PerformAtk(target);
+
         }
         Board.ins.moveStack.Push(this);
         Board.ins.PerformMove();

@@ -19,6 +19,10 @@ public class Shielder : ChessPiece
             {
                 var piece = Board.GetPiece(i, j);
                 if (piece.GetCoordinate() == currentCoordinate) continue;
+
+                piece.marker.color = Color.cyan;
+                piece.marker.gameObject.SetActive(true);
+
                 if (piece.currentChessPiece != null)
                 {
                     if (piece.barrierSide == side) continue;

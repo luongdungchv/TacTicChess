@@ -56,21 +56,28 @@ public class ChessPiece : MonoBehaviour
     }
     public virtual void PerformAtk(ChessPiece targetChessPiece)
     {
-
+        Debug.Log(targetChessPiece.currentBoardPiece.GetCoordinate());
         Vector2 targetPosition = targetChessPiece.transform.position;
 
         var animation = GetComponentInChildren<Figure>();
         var targetAnimation = targetChessPiece.GetComponentInChildren<Figure>();
         var targetSkeleton = targetChessPiece.GetComponentInChildren<SkeletonAnimation>();
-        animation.DoAtkAnim(this.atkAnimation, targetSkeleton, () =>
+        animation.DoAtkAnim(this.atkAnimation, targetChessPiece.transform, () =>
         {
             targetChessPiece.hp -= damage;
             if (targetChessPiece.hp <= 0)
             {
-                targetAnimation.DoHitOrDieAnim(this.dieAnimation, () => targetChessPiece.Perish());
+                if (targetChessPiece.GetType() != typeof(Barrier))
+                    targetAnimation.DoHitOrDieAnim(this.dieAnimation, () => targetChessPiece.Perish());
+                else targetChessPiece.Perish();
 
             }
-            else targetAnimation.DoHitOrDieAnim(this.getHitAnimation);
+            else
+            {
+                if (targetChessPiece.GetType() != typeof(Barrier))
+                    targetAnimation.DoHitOrDieAnim(this.getHitAnimation);
+
+            }
             AnimationPlayer.DamagePopup(targetPosition, 1f, damage, "-");
         }, atkDelay);
 

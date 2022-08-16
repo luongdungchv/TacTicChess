@@ -13,7 +13,7 @@ public class ClientColyseus : ClientBase
         //base.ConnectToServer(connectFailCallback, connectSuccessCallback);
         manager.SetPlayer(player);
         manager.SetClient(this);
-        manager.InitializeClient();
+        manager.InitializeClient(connectSuccessCallback, connectFailCallback);
     }
     protected override void Start()
     {
