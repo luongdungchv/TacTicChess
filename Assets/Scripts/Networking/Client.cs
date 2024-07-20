@@ -34,6 +34,7 @@ public class Client : ClientBase
         //     Destroy(ins.gameObject);
         // }
         // DontDestroyOnLoad(this);
+        Debug.Log(ins);
         if (ins == null) ins = this;
         else
         {
@@ -42,6 +43,7 @@ public class Client : ClientBase
         }
         base.Start();
         receiveBuffer = new byte[dataBufferSize];
+        DontDestroyOnLoad(this);
     }
     public async override void ConnectToServer(Action<Exception> ConnectFailCallback, Action ConnectSucceededCallback)
     {

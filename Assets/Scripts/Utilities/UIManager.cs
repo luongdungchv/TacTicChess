@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
     public Button joinMatchBtnPrefab;
     public GameObject localMatchPanel;
     public Button stopHostBtn, startHostBtn, findMatchBtn, cancelBtn;
-    public TextMeshProUGUI logText;
+    //public TextMeshProUGUI logText;
 
     private void Start()
     {
@@ -97,11 +97,11 @@ public class UIManager : MonoBehaviour
         caller.GetComponentInParent<Button>().interactable = false;
         findMatchBtn.interactable = false;
         (ClientManager.ins.client[0] as Client).serverIp = ip;
-        logText.text = ip;
+        //logText.text = ip;
         ClientManager.ins.client[0].ConnectToServer((e) =>
         {
             StopLocalHost();
-            logText.text = e.ToString();
+            //logText.text = e.ToString();
             caller.GetComponentInParent<Button>().interactable = true;
         });
     }
@@ -131,7 +131,7 @@ public class UIManager : MonoBehaviour
             }
             catch (Exception e)
             {
-                logText.text = e.ToString();
+                //slogText.text = e.ToString();
             }
         }
 
